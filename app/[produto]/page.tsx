@@ -112,7 +112,7 @@ function NavBar() {
           priority
         />
         <a
-          href="https://wa.me/5561999867005"
+          href="https://wa.me/5561999999999"
           className="text-sm font-semibold text-[#5CBECB] hover:text-[#4aacb9] transition-colors"
         >
           Fale pelo WhatsApp →
@@ -267,8 +267,8 @@ function Rodape({ config }: { config: ProdutoConfig }) {
           <div className="flex items-center gap-2">
             <Image src="/logo.png" alt="Simples Assim" width={80} height={24} />
           </div>
-          <p>Simples Asssim Corretora de Seguros · SUSEP nº 202018692 · Todos os direitos reservados © {new Date().getFullYear()}</p>
-          <p>Corretor responsável: Fabio Salim G Marques 201014563 · SUSEP nº 202018692</p>
+          <p>Via Seguros · SUSEP nº XXXXX · Todos os direitos reservados © {new Date().getFullYear()}</p>
+          <p>Corretor responsável: Fabio Salim · SUSEP nº XXXXX</p>
         </div>
       </div>
     </footer>
