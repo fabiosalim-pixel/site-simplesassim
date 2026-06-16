@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { supabase } from "@/lib/supabase";
+import { sendGAEvent } from "@next/third-parties/google";
 
 type FormData = {
   nome: string;
@@ -83,6 +84,11 @@ export default function FormularioCotacao() {
       setErro("Erro ao enviar. Tente pelo WhatsApp.");
       return;
     }
+
+    sendGAEvent("event", "gerar_lead", {
+      tipo_seguro: form.tipo_seguro || "nao_informado",
+      canal: utms.canal,
+    });
 
     setStatus("success");
   };
