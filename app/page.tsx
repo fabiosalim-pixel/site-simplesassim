@@ -1,299 +1,196 @@
-// app/[produto]/page.tsx
-// Template SSG de landing page — Simples Assim
-// Uso: cada produto é uma config em PRODUTOS. Adicionar produto = adicionar objeto ao map.
-
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import FormularioCotacao from "@/components/FormularioCotacao";
+import Link from "next/link";
 import Image from "next/image";
 
-/* ─── CONFIGURAÇÃO DE PRODUTOS ─────────────────────────────────────────── */
+// ─────────────────────────────────────────────────────────────
+// AJUSTE: cole aqui o MESMO link de WhatsApp usado nas landing pages
+const WHATSAPP =
+  "https://wa.me/5561999867005?text=Ol%C3%A1!%20Quero%20uma%20cota%C3%A7%C3%A3o.";
+// ─────────────────────────────────────────────────────────────
 
-type ProdutoConfig = {
-  slug: string;
-  titulo: string;
-  subtitulo: string;
-  descricao: string;
-  icone: string;
-  beneficios: string[];
-  whatsappMensagem: string;
-  metaTitle: string;
-  metaDescription: string;
+export const metadata: Metadata = {
+  title: "Simples Assim — Cotamos com as melhores seguradoras",
+  description:
+    "Cotamos com as melhores seguradoras do Brasil. Atendimento humano e sem burocracia. Simples Assim.",
 };
 
-const PRODUTOS: Record<string, ProdutoConfig> = {
-  "seguro-auto": {
+const PRODUTOS = [
+  {
     slug: "seguro-auto",
-    titulo: "Seguro Auto",
-    subtitulo: "Compare e contrate em minutos",
-    descricao:
-      "Cotamos nas principais seguradoras do Brasil e você escolhe a melhor cobertura para o seu perfil.",
-    icone: "🚗",
-    beneficios: [
-      "Comparamos mais de 40 seguradoras",
-      "Cotação sem compromisso em minutos",
-      "Atendimento humano do início ao fim",
-      "Suporte completo em caso de sinistro",
-    ],
-    whatsappMensagem: "Olá! Quero uma cotação de Seguro Auto.",
-    metaTitle: "Seguro Auto | Simples Assim — Cotação em minutos",
-    metaDescription:
-      "Compare seguro auto nas melhores seguradoras com um corretor especializado. Cotação rápida, sem burocracia.",
+    emoji: "🚗",
+    nome: "Seguro Auto",
+    desc: "Já tem seguro? Envie sua apólice e compare com 40+ seguradoras.",
   },
-  "seguro-residencial": {
+  {
     slug: "seguro-residencial",
-    titulo: "Seguro Residencial",
-    subtitulo: "Proteja seu lar com o melhor custo-benefício",
-    descricao:
-      "Casa, apartamento ou sítio — encontramos a cobertura certa para o seu imóvel.",
-    icone: "🏠",
-    beneficios: [
-      "Coberturas para incêndio, roubo e danos elétricos",
-      "Assistência 24h incluída",
-      "Parcelamento facilitado",
-      "Atendimento personalizado",
-    ],
-    whatsappMensagem: "Olá! Quero uma cotação de Seguro Residencial.",
-    metaTitle: "Seguro Residencial | Simples Assim — Proteja seu lar",
-    metaDescription:
-      "Seguro residencial com as melhores coberturas e atendimento humano. Cotação rápida e sem burocracia.",
+    emoji: "🏠",
+    nome: "Seguro Residencial",
+    desc: "Proteja sua casa ou apartamento com a cobertura certa pra você.",
   },
-  "seguro-viagem": {
+  {
     slug: "seguro-viagem",
-    titulo: "Seguro Viagem",
-    subtitulo: "Viaje tranquilo para qualquer destino",
-    descricao:
-      "Cobertura médica, bagagem e cancelamento para viagens nacionais e internacionais.",
-    icone: "✈️",
-    beneficios: [
-      "Cobertura médica internacional",
-      "Assistência 24h em português",
-      "Proteção de bagagem",
-      "Cancelamento de viagem",
-    ],
-    whatsappMensagem: "Olá! Quero uma cotação de Seguro Viagem.",
-    metaTitle: "Seguro Viagem | Simples Assim — Viaje com tranquilidade",
-    metaDescription:
-      "Seguro viagem nacional e internacional com as melhores coberturas. Cotação imediata.",
+    emoji: "✈️",
+    nome: "Seguro Viagem",
+    desc: "Viaje tranquilo, dentro ou fora do Brasil, com assistência completa.",
   },
-};
+];
 
-/* ─── GERAÇÃO ESTÁTICA DE ROTAS ─────────────────────────────────────────── */
+const MOTIVOS = [
+  "Comparamos mais de 40 seguradoras",
+  "Atendimento humano do início ao fim",
+  "Cotação sem compromisso, em minutos",
+  "Suporte completo em caso de sinistro",
+];
 
-export async function generateStaticParams() {
-  return Object.keys(PRODUTOS).map((slug) => ({ produto: slug }));
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ produto: string }>;
-}): Promise<Metadata> {
-  const { produto } = await params;
-  const config = PRODUTOS[produto];
-  if (!config) return {};
-  return {
-    title: config.metaTitle,
-    description: config.metaDescription,
-  };
-}
-
-/* ─── COMPONENTES INTERNOS ──────────────────────────────────────────────── */
-
-function NavBar() {
+function Check() {
   return (
-    <nav className="w-full bg-white border-b border-[#e8f7f8] px-6 py-4">
-      <div className="max-w-5xl mx-auto flex items-center justify-between">
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      className="flex-shrink-0 mt-0.5"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="11" fill="#E9854A" fillOpacity="0.12" />
+      <path
+        d="M7 12.5l3.2 3.2L17 9"
+        stroke="#E9854A"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export default function Home() {
+  return (
+    <main className="min-h-screen bg-white">
+      {/* ── Header ── */}
+      <header className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
         <Image
           src="/logo.png"
           alt="Simples Assim"
-          width={160}
-          height={48}
+          width={150}
+          height={42}
           priority
+          className="h-9 w-auto"
         />
         <a
-          href="https://wa.me/5561999867005"
-          className="text-sm font-semibold text-[#5CBECB] hover:text-[#4aacb9] transition-colors"
+          href={WHATSAPP}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm font-semibold text-[#5CBECB] hover:text-[#4aa9b6] transition-colors"
         >
           Fale pelo WhatsApp →
         </a>
-      </div>
-    </nav>
-  );
-}
+      </header>
 
-function Hero({ config }: { config: ProdutoConfig }) {
-  const whatsappUrl = `https://wa.me/5561999999999?text=${encodeURIComponent(
-    config.whatsappMensagem
-  )}`;
-
-  return (
-    <section className="bg-[#535391] text-white">
-      <div className="max-w-5xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
-        {/* Texto */}
-        <div>
-          <span className="inline-block text-4xl mb-4">{config.icone}</span>
-          <h1 className="text-4xl md:text-5xl font-black leading-tight mb-3">
-            {config.titulo}
+      {/* ── Hero ── */}
+      <section className="bg-[#535391] text-white">
+        <div className="max-w-6xl mx-auto px-6 py-20 md:py-28">
+          <p className="text-[#5CBECB] font-bold text-sm uppercase tracking-widest mb-4">
+            Corretora de seguros
+          </p>
+          <h1 className="text-4xl md:text-5xl font-black leading-tight max-w-3xl">
+            Cotamos com as melhores seguradoras, atendimento humano e sem
+            burocracia.
           </h1>
-          <p className="text-xl text-[#5CBECB] font-semibold mb-4">
-            {config.subtitulo}
+          <p className="text-2xl md:text-3xl font-black text-[#5CBECB] mt-4">
+            Simples Assim&nbsp;;)
           </p>
-          <p className="text-white/80 text-base leading-relaxed mb-8">
-            {config.descricao}
+          <p className="text-white/70 text-lg mt-6 max-w-xl leading-relaxed">
+            Escolha o seguro que você procura, peça sua cotação e deixe o resto
+            com a gente.
           </p>
 
-          {/* CTA WhatsApp — posição 1 (hero) */}
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#1ebe5a] text-white font-bold px-7 py-4 rounded-full text-base transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-            </svg>
-            Quero minha cotação agora
-          </a>
-        </div>
-
-        {/* Benefícios */}
-        <div className="bg-white/10 rounded-2xl p-7 backdrop-blur-sm">
-          <p className="text-[#5CBECB] font-bold text-sm uppercase tracking-widest mb-5">
-            Por que a Simples Assim?
-          </p>
-          <ul className="space-y-4">
-            {config.beneficios.map((b, i) => (
-              <li key={i} className="flex items-start gap-3 text-white/90">
-                <span className="text-[#E9854A] font-black text-lg leading-none mt-0.5">
-                  ✓
-                </span>
-                <span className="text-base">{b}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function CredibilidadeBar() {
-  const numeros = [
-    { valor: "42+", label: "Seguradoras parceiras" },
-    { valor: "10 anos", label: "de mercado" },
-    { valor: "100%", label: "Atendimento humano" },
-    { valor: "0", label: "Burocracia" },
-  ];
-
-  return (
-    <section className="bg-[#5CBECB]">
-      <div className="max-w-5xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
-        {numeros.map((n, i) => (
-          <div key={i} className="text-center">
-            <div className="text-3xl font-black text-white">{n.valor}</div>
-            <div className="text-white/80 text-sm mt-1">{n.label}</div>
+          <div className="flex flex-col sm:flex-row gap-3 mt-9">
+            <Link
+              href="/seguro-auto"
+              className="bg-[#E9854A] hover:bg-[#d9743b] text-white font-bold px-7 py-4 rounded-xl text-center transition-all shadow-sm hover:shadow-md"
+            >
+              Quero minha cotação
+            </Link>
+            <a
+              href={WHATSAPP}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#25D366] hover:bg-[#1ebe5a] text-white font-bold px-7 py-4 rounded-xl text-center transition-all"
+            >
+              Falar no WhatsApp
+            </a>
           </div>
-        ))}
-      </div>
-    </section>
-  );
-}
+        </div>
+      </section>
 
-function SecaoFormulario() {
-  return (
-    <section className="bg-[#f7fafa] py-20 px-6" id="cotacao">
-      <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-start">
-        {/* Texto de apoio */}
-        <div>
-          <h2 className="text-3xl font-black text-[#535391] leading-tight mb-4">
-            Prefere que a gente entre em contato?
+      {/* ── Motivos ── */}
+      <section className="max-w-6xl mx-auto px-6 py-16">
+        <h2 className="text-2xl md:text-3xl font-black text-[#535391] mb-8">
+          Por que a Simples Assim?
+        </h2>
+        <div className="grid sm:grid-cols-2 gap-x-10 gap-y-5">
+          {MOTIVOS.map((m) => (
+            <div key={m} className="flex items-start gap-3">
+              <Check />
+              <span className="text-[#333333] text-base">{m}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Produtos ── */}
+      <section className="bg-[#f6fcfd] border-y border-[#e8f7f8]">
+        <div className="max-w-6xl mx-auto px-6 py-16">
+          <h2 className="text-2xl md:text-3xl font-black text-[#535391] mb-2">
+            Qual seguro você procura?
           </h2>
-          <p className="text-[#333333]/70 text-base leading-relaxed mb-6">
-            Preencha o formulário e um corretor especializado entra em contato
-            com você em até 2 horas úteis com as melhores opções.
+          <p className="text-[#333333]/60 mb-10">
+            Mais produtos chegando em breve.
           </p>
-          <div className="space-y-3">
-            {[
-              "Sem compromisso",
-              "Seus dados são protegidos (LGPD)",
-              "Resposta em até 2 horas úteis",
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-2 text-[#333333]/60 text-sm">
-                <span className="text-[#5CBECB] font-bold">✓</span>
-                {item}
-              </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {PRODUTOS.map((p) => (
+              <Link
+                key={p.slug}
+                href={`/${p.slug}`}
+                className="group bg-white rounded-2xl border border-[#e8f7f8] p-7 shadow-sm hover:shadow-md hover:border-[#5CBECB] transition-all"
+              >
+                <div className="text-4xl mb-4">{p.emoji}</div>
+                <h3 className="text-lg font-black text-[#535391] mb-2">
+                  {p.nome}
+                </h3>
+                <p className="text-[#333333]/60 text-sm leading-relaxed mb-4">
+                  {p.desc}
+                </p>
+                <span className="text-[#5CBECB] font-semibold text-sm group-hover:text-[#4aa9b6]">
+                  Pedir cotação →
+                </span>
+              </Link>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Formulário — componente client */}
-        <FormularioCotacao />
-      </div>
-    </section>
-  );
-}
-
-function Rodape({ config }: { config: ProdutoConfig }) {
-  const whatsappUrl = `https://wa.me/5561999999999?text=${encodeURIComponent(
-    config.whatsappMensagem
-  )}`;
-
-  return (
-    <footer className="bg-[#535391] text-white">
-      {/* CTA WhatsApp — posição 3 (rodapé) */}
-      <div className="border-b border-white/10 py-12 px-6">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-xl font-bold">
-            Ainda com dúvidas? Fale direto com um corretor.
-          </p>
+      {/* ── Rodapé ── */}
+      {/* AJUSTE: confirme que este texto bate com o rodapé das landing pages */}
+      <footer className="bg-[#535391] text-white/70">
+        <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="text-sm leading-relaxed">
+            <p className="font-bold text-white mb-1">Simples Assim · Via Seguros</p>
+            <p>Corretora de seguros · SUSEP nº [202018692]</p>
+            <p>CNPJ [22.663.893/0001-98] · Brasília/DF</p>
+          </div>
           <a
-            href={whatsappUrl}
+            href={WHATSAPP}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#1ebe5a] text-white font-bold px-7 py-4 rounded-full text-base transition-all whitespace-nowrap"
+            className="text-sm font-semibold text-[#5CBECB] hover:text-white transition-colors"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-            </svg>
-            Chamar no WhatsApp
+            Fale pelo WhatsApp →
           </a>
         </div>
-      </div>
-
-      {/* Dados legais */}
-      <div className="py-6 px-6">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-white/50 text-xs">
-          <div className="flex items-center gap-2">
-            <Image src="/logo.png" alt="Simples Assim" width={80} height={24} />
-          </div>
-          <p>Simples Asssim Corretora de Seguros · SUSEP nº 202018692 · Todos os direitos reservados © {new Date().getFullYear()}</p>
-          <p>Corretor responsável: Fabio Salim G Marques 201014563 · SUSEP nº 202018692</p>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-/* ─── PAGE ──────────────────────────────────────────────────────────────── */
-
-export default async function ProdutoPage({
-  params,
-}: {
-  params: Promise<{ produto: string }>;
-}) {
-  const { produto } = await params;
-  const config = PRODUTOS[produto];
-
-  if (!config) notFound();
-
-  return (
-    <main className="min-h-screen font-[family-name:var(--font-nunito)]">
-      <NavBar />
-      <Hero config={config} />
-      <CredibilidadeBar />
-      <SecaoFormulario />
-      <Rodape config={config} />
+      </footer>
     </main>
   );
 }
