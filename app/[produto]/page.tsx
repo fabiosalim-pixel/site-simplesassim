@@ -5,6 +5,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import FormularioCotacao from "@/components/FormularioCotacao";
+import FormularioAutoQualificado from "@/components/FormularioAutoQualificado";
 import Image from "next/image";
 
 /* ─── CONFIGURAÇÃO DE PRODUTOS ─────────────────────────────────────────── */
@@ -200,18 +201,28 @@ function CredibilidadeBar() {
   );
 }
 
-function SecaoFormulario() {
+// ── Seção do formulário ────────────────────────────────────────────────
+// A landing page de seguro-auto usa o formulário qualificado (com upload
+// obrigatório de apólice no fluxo de renovação). As demais landing pages
+// continuam com o formulário simples, até montarmos o fluxo específico
+// de cada produto.
+function SecaoFormulario({ slug }: { slug: string }) {
+  const isAuto = slug === "seguro-auto";
+
   return (
     <section className="bg-[#f7fafa] py-20 px-6" id="cotacao">
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-start">
         {/* Texto de apoio */}
         <div>
           <h2 className="text-3xl font-black text-[#535391] leading-tight mb-4">
-            Prefere que a gente entre em contato?
+            {isAuto
+              ? "Já tem seguro? Compare antes de renovar."
+              : "Prefere que a gente entre em contato?"}
           </h2>
           <p className="text-[#333333]/70 text-base leading-relaxed mb-6">
-            Preencha o formulário e um corretor especializado entra em contato
-            com você em até 2 horas úteis com as melhores opções.
+            {isAuto
+              ? "Envie sua apólice atual e um corretor especializado retorna em até 2 horas úteis com opções melhores para o seu perfil."
+              : "Preencha o formulário e um corretor especializado entra em contato com você em até 2 horas úteis com as melhores opções."}
           </p>
           <div className="space-y-3">
             {[
@@ -228,7 +239,7 @@ function SecaoFormulario() {
         </div>
 
         {/* Formulário — componente client */}
-        <FormularioCotacao />
+        {isAuto ? <FormularioAutoQualificado /> : <FormularioCotacao />}
       </div>
     </section>
   );
@@ -292,7 +303,7 @@ export default async function ProdutoPage({
       <NavBar />
       <Hero config={config} />
       <CredibilidadeBar />
-      <SecaoFormulario />
+      <SecaoFormulario slug={produto} />
       <Rodape config={config} />
     </main>
   );
