@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
+import SiteHeader from "@/components/SiteHeader";
 
 // ─────────────────────────────────────────────────────────────
-// Link de WhatsApp (já com o número real)
 const WHATSAPP =
   "https://wa.me/5561999867005?text=Ol%C3%A1!%20Quero%20uma%20cota%C3%A7%C3%A3o.";
 // ─────────────────────────────────────────────────────────────
@@ -49,33 +48,29 @@ const PRODUTOS = [
   },
 ];
 
+// TODO: substituir por logos reais quando Salim enviar os arquivos
+// (ver tarefa no Asana — pendência de logos das seguradoras parceiras)
+const SEGURADORAS = [
+  "Porto Seguro",
+  "HDI Seguros",
+  "Tokio Marine",
+  "Allianz",
+  "Mapfre",
+  "Yelum",
+  "Itaú Seguros",
+  "Bradesco Seguros",
+  "Sul América",
+  "Liberty Seguros",
+];
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
-      {/* ── Header ── */}
-      <header className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
-        <Image
-          src="/logo.png"
-          alt="Simples Assim"
-          width={150}
-          height={42}
-          priority
-          className="h-9 w-auto"
-        />
-        <a
-          href={WHATSAPP}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm font-semibold text-[#5CBECB] hover:text-[#4aa9b6] transition-colors"
-        >
-          Fale pelo WhatsApp →
-        </a>
-      </header>
+      <SiteHeader />
 
       {/* ── Hero ── */}
       <section className="bg-[#535391] text-white">
         <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-10 md:gap-12 items-center">
-          {/* Coluna esquerda */}
           <div>
             <p className="text-[#5CBECB] font-bold text-sm uppercase tracking-widest mb-4">
               Corretora de seguros
@@ -109,7 +104,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Coluna direita — card "Por que a Simples Assim" */}
           <div className="bg-white/10 rounded-2xl p-7 md:p-8">
             <p className="text-[#5CBECB] font-bold text-sm uppercase tracking-widest mb-5">
               Por que a Simples Assim?
@@ -140,8 +134,86 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Sobre ── */}
+      <section id="sobre" className="bg-white">
+        <div className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12">
+          <div>
+            <p className="text-[#E9854A] font-bold text-xs uppercase tracking-widest mb-3">
+              Quem está por trás
+            </p>
+            <h2 className="text-2xl md:text-3xl font-black text-[#535391] mb-5">
+              Sobre a Simples Assim
+            </h2>
+            <p className="text-[#333333]/70 leading-relaxed mb-4">
+              A Simples Assim é a porta digital da Via Seguros, corretora de
+              seguros que atua no mercado desde 2004 sob a responsabilidade
+              técnica de Fabio Salim Guimarães Marques, formado pela Escola
+              Nacional de Seguros (ENS).
+            </p>
+            <p className="text-[#333333]/70 leading-relaxed">
+              Antes de fundar a corretora, construiu sua experiência em
+              seguradoras como Bradesco Seguros, Icatu Seguros, Metlife, HSBC
+              Seguros e Zurich-Santander Seguros — bagagem que hoje orienta
+              cada cotação que fazemos para você.
+            </p>
+          </div>
+
+          <div className="grid gap-4">
+            <div className="bg-[#f6fcfd] rounded-2xl p-6 border border-[#e8f7f8]">
+              <p className="text-xs font-bold text-[#5CBECB] uppercase tracking-widest mb-1.5">
+                Missão
+              </p>
+              <p className="text-[#333333]/70 text-sm leading-relaxed">
+                Prestar os melhores serviços de proteção pessoal e
+                patrimonial, com agilidade e custos competitivos.
+              </p>
+            </div>
+            <div className="bg-[#f6fcfd] rounded-2xl p-6 border border-[#e8f7f8]">
+              <p className="text-xs font-bold text-[#5CBECB] uppercase tracking-widest mb-1.5">
+                Visão
+              </p>
+              <p className="text-[#333333]/70 text-sm leading-relaxed">
+                Ser referência em seguros, planos de saúde e consórcios em
+                Brasília.
+              </p>
+            </div>
+            <div className="bg-[#f6fcfd] rounded-2xl p-6 border border-[#e8f7f8]">
+              <p className="text-xs font-bold text-[#5CBECB] uppercase tracking-widest mb-1.5">
+                Valores
+              </p>
+              <p className="text-[#333333]/70 text-sm leading-relaxed">
+                Atendimento humano, transparência e o melhor custo-benefício
+                para cada cliente.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Seguradoras parceiras ── */}
+      <section className="bg-[#f6fcfd] border-y border-[#e8f7f8]">
+        <div className="max-w-6xl mx-auto px-6 py-14">
+          <h2 className="text-xl md:text-2xl font-black text-[#535391] text-center mb-2">
+            Seguradoras parceiras
+          </h2>
+          <p className="text-[#333333]/60 text-center text-sm mb-8">
+            Comparamos cotações entre as principais seguradoras do Brasil.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {SEGURADORAS.map((s) => (
+              <span
+                key={s}
+                className="bg-white border border-[#e8f7f8] rounded-full px-5 py-2 text-sm font-semibold text-[#535391] shadow-sm"
+              >
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Produtos ── */}
-      <section id="produtos" className="bg-[#f6fcfd] border-b border-[#e8f7f8]">
+      <section id="produtos" className="bg-white border-b border-[#e8f7f8]">
         <div className="max-w-6xl mx-auto px-6 py-16">
           <h2 className="text-2xl md:text-3xl font-black text-[#535391] mb-2">
             Qual seguro você procura?
@@ -175,13 +247,14 @@ export default function Home() {
 
       {/* ── Rodapé ── */}
       <footer className="bg-[#535391] text-white/70">
-        <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row md:items-start md:justify-between gap-6">
           <div className="text-sm leading-relaxed">
             <p className="font-bold text-white mb-1">
               Simples Assim · Via Seguros
             </p>
             <p>Corretora de seguros · SUSEP nº 202018692</p>
             <p>CNPJ 22.663.893/0001-98 · Brasília/DF</p>
+            <p className="mt-2">Tel/WhatsApp: (61) 99986-7005</p>
           </div>
           <a
             href={WHATSAPP}

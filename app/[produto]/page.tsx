@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import FormularioCotacao from "@/components/FormularioCotacao";
 import FormularioAutoQualificado from "@/components/FormularioAutoQualificado";
+import SiteHeader from "@/components/SiteHeader";
 import Image from "next/image";
 
 /* ─── CONFIGURAÇÃO DE PRODUTOS ─────────────────────────────────────────── */
@@ -100,28 +101,6 @@ export async function generateMetadata({
 }
 
 /* ─── COMPONENTES INTERNOS ──────────────────────────────────────────────── */
-
-function NavBar() {
-  return (
-    <nav className="w-full bg-white border-b border-[#e8f7f8] px-6 py-4">
-      <div className="max-w-5xl mx-auto flex items-center justify-between">
-        <Image
-          src="/logo.png"
-          alt="Simples Assim"
-          width={160}
-          height={48}
-          priority
-        />
-        <a
-          href="https://wa.me/5561999867005"
-          className="text-sm font-semibold text-[#5CBECB] hover:text-[#4aacb9] transition-colors"
-        >
-          Fale pelo WhatsApp →
-        </a>
-      </div>
-    </nav>
-  );
-}
 
 function Hero({ config }: { config: ProdutoConfig }) {
   const whatsappUrl = `https://wa.me/5561999867005?text=${encodeURIComponent(
@@ -300,7 +279,7 @@ export default async function ProdutoPage({
 
   return (
     <main className="min-h-screen font-[family-name:var(--font-nunito)]">
-      <NavBar />
+      <SiteHeader />
       <Hero config={config} />
       <CredibilidadeBar />
       <SecaoFormulario slug={produto} />
