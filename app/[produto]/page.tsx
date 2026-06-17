@@ -6,7 +6,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import FormularioCotacao from "@/components/FormularioCotacao";
 import FormularioAutoQualificado from "@/components/FormularioAutoQualificado";
-import CalculeVoceMesmo from "@/components/CalculeVoceMesmo";
+import CalculeVoceMesmo, { type Seguradora } from "@/components/CalculeVoceMesmo";
+import ContatoEquipe from "@/components/ContatoEquipe";
 import SiteHeader from "@/components/SiteHeader";
 import Image from "next/image";
 
@@ -63,6 +64,7 @@ const PRODUTOS: Record<string, ProdutoConfig> = {
     metaTitle: "Seguro Residencial | Simples Assim — Proteja seu lar",
     metaDescription:
       "Seguro residencial com as melhores coberturas e atendimento humano. Cotação rápida e sem burocracia.",
+    ctaSecundaria: true,
   },
   "seguro-viagem": {
     slug: "seguro-viagem",
@@ -86,7 +88,52 @@ const PRODUTOS: Record<string, ProdutoConfig> = {
   },
 };
 
-/* ─── GERAÇÃO ESTÁTICA DE ROTAS ─────────────────────────────────────────── */
+/* ─── SEGURADORAS COM LINK DE COMPRA DIRETA (por produto) ──────────────── */
+
+const SEGURADORAS_POR_PRODUTO: Record<string, Seguradora[]> = {
+  "seguro-viagem": [
+    {
+      nome: "Porto Seguro",
+      blurb:
+        "Uma das maiores seguradoras do Brasil, com ampla rede de assistência no Brasil e no exterior.",
+      link: "http://www.porto.vc/VIAGEM_32566J_b21a49dff0044a6290a21b3e2468061b",
+    },
+    {
+      nome: "Tokio Marine",
+      blurb:
+        "Seguradora com tradição global em seguro viagem, cobertura médica e assistência 24h.",
+      link: "https://servicos.tokiomarine.com.br/sva/view/digital/seguro-viagem/broker/29ECFE91-4FBA-E5FD-8560-D11D60F9EEF0",
+    },
+    {
+      nome: "SulAmérica",
+      blurb:
+        "Cobertura nacional e internacional, com planos para diferentes perfis de viagem.",
+      link: "https://portal.sulamericaseguros.com.br/seguroviagem?idLink=CSUZV5Z",
+    },
+    {
+      nome: "Allianz",
+      blurb:
+        "Seguradora com presença internacional e assistência robusta para viagens ao exterior.",
+      link: "https://parceiros.allianztravel.com.br/allianzbroker/ALLIANZ?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE3ODE3Mjc4NDMsImV4cCI6MTgxNzcyNzg0NCwiaWF0IjoxNzgxNzI3ODQ0LCJVc2VyIjoiYXpicm9rZXIiLCJCcm9rZXJDb2RlIjoiNDAxMjI3NCJ9.TZMeSZPEKgKIW6xX5pmISGBS4Ok8OvADJ6qXiXWyLI8",
+    },
+  ],
+  "seguro-residencial": [
+    {
+      nome: "Porto Seguro",
+      blurb:
+        "Proteção completa para sua casa ou apartamento, com assistência residencial 24h.",
+      link: "http://www.porto.vc/RESIDENCIAESSENCIAL_32566J_fb6d717e5e664a3381a8ff96aae37f3f",
+    },
+    {
+      nome: "Tokio Marine",
+      blurb:
+        "Cobertura sob medida para o seu lar, contra incêndio, roubo, danos elétricos e mais.",
+      link: "https://servicos.tokiomarine.com.br/massificados/cotador-rd-ot-digital/#/661a97d2-55f4-4b9e-b8c5-5d896864c566",
+    },
+  ],
+};
+
+
 
 export async function generateStaticParams() {
   return Object.keys(PRODUTOS).map((slug) => ({ produto: slug }));
@@ -296,16 +343,26 @@ export default async function ProdutoPage({
 
   if (!config) notFound();
 
+  const seguradoras = SEGURADORAS_POR_PRODUTO[produto];
+
   return (
     <main className="min-h-screen scroll-smooth font-[family-name:var(--font-nunito)]">
       <SiteHeader />
       <Hero config={config} />
-      {produto !== "seguro-viagem" && <CredibilidadeBar />}
-      {produto === "seguro-viagem" ? (
-        <CalculeVoceMesmo />
+      {!config.ctaSecundaria && <CredibilidadeBar />}
+
+      {seguradoras ? (
+        <>
+          <CalculeVoceMesmo
+            seguradoras={seguradoras}
+            produtoLabel={config.titulo.toLowerCase()}
+          />
+          {produto === "seguro-residencial" && <ContatoEquipe />}
+        </>
       ) : (
         <SecaoFormulario slug={produto} />
       )}
+
       <Rodape config={config} />
     </main>
   );

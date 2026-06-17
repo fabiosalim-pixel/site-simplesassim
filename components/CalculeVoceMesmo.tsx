@@ -2,48 +2,29 @@
 
 import { useState } from "react";
 
-type Seguradora = {
+export type Seguradora = {
   nome: string;
   blurb: string;
   link: string;
 };
 
-const SEGURADORAS_VIAGEM: Seguradora[] = [
-  {
-    nome: "Porto Seguro",
-    blurb:
-      "Uma das maiores seguradoras do Brasil, com ampla rede de assistência no Brasil e no exterior.",
-    link: "http://www.porto.vc/VIAGEM_32566J_b21a49dff0044a6290a21b3e2468061b",
-  },
-  {
-    nome: "Tokio Marine",
-    blurb:
-      "Seguradora com tradição global em seguro viagem, cobertura médica e assistência 24h.",
-    link: "https://servicos.tokiomarine.com.br/sva/view/digital/seguro-viagem/broker/29ECFE91-4FBA-E5FD-8560-D11D60F9EEF0",
-  },
-  {
-    nome: "SulAmérica",
-    blurb:
-      "Cobertura nacional e internacional, com planos para diferentes perfis de viagem.",
-    link: "https://portal.sulamericaseguros.com.br/seguroviagem?idLink=CSUZV5Z",
-  },
-  {
-    nome: "Allianz",
-    blurb:
-      "Seguradora com presença internacional e assistência robusta para viagens ao exterior.",
-    link: "https://parceiros.allianztravel.com.br/allianzbroker/ALLIANZ?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE3ODE3Mjc4NDMsImV4cCI6MTgxNzcyNzg0NCwiaWF0IjoxNzgxNzI3ODQ0LCJVc2VyIjoiYXpicm9rZXIiLCJCcm9rZXJDb2RlIjoiNDAxMjI3NCJ9.TZMeSZPEKgKIW6xX5pmISGBS4Ok8OvADJ6qXiXWyLI8",
-  },
-];
+const WHATSAPP_NUMERO = "5561999867005";
 
-const WHATSAPP_NAO_ENCONTROU =
-  "https://wa.me/5561999867005?text=" +
-  encodeURIComponent(
-    "Olá! Não encontrei o seguro viagem que eu procurava no site. Podem me ajudar?"
-  );
-
-export default function CalculeVoceMesmo() {
+export default function CalculeVoceMesmo({
+  seguradoras,
+  produtoLabel,
+}: {
+  seguradoras: Seguradora[];
+  produtoLabel: string; // ex: "seguro viagem", "seguro residencial"
+}) {
   const [ativa, setAtiva] = useState(0);
-  const seguradora = SEGURADORAS_VIAGEM[ativa];
+  const seguradora = seguradoras[ativa];
+
+  const whatsappNaoEncontrou =
+    `https://wa.me/${WHATSAPP_NUMERO}?text=` +
+    encodeURIComponent(
+      `Olá! Não encontrei o ${produtoLabel} que eu procurava no site. Podem me ajudar?`
+    );
 
   return (
     <section className="bg-[#f7fafa] py-20 px-6 scroll-mt-20" id="cotacao">
@@ -59,7 +40,7 @@ export default function CalculeVoceMesmo() {
 
       {/* Abas */}
       <div className="max-w-3xl mx-auto flex flex-wrap justify-center gap-2 mb-6">
-        {SEGURADORAS_VIAGEM.map((s, i) => (
+        {seguradoras.map((s, i) => (
           <button
             key={s.nome}
             type="button"
@@ -105,7 +86,7 @@ export default function CalculeVoceMesmo() {
           Fale com a gente — não tenha receio ou dúvida.
         </p>
         <a
-          href={WHATSAPP_NAO_ENCONTROU}
+          href={whatsappNaoEncontrou}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe5a] text-white font-bold px-6 py-3 rounded-xl text-sm transition-all"
