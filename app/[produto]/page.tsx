@@ -113,7 +113,7 @@ function NavBar() {
           priority
         />
         <a
-          href="https://wa.me/5561999999999"
+          href="https://wa.me/5561999867005"
           className="text-sm font-semibold text-[#5CBECB] hover:text-[#4aacb9] transition-colors"
         >
           Fale pelo WhatsApp →
@@ -124,7 +124,7 @@ function NavBar() {
 }
 
 function Hero({ config }: { config: ProdutoConfig }) {
-  const whatsappUrl = `https://wa.me/5561999999999?text=${encodeURIComponent(
+  const whatsappUrl = `https://wa.me/5561999867005?text=${encodeURIComponent(
     config.whatsappMensagem
   )}`;
 
@@ -246,7 +246,7 @@ function SecaoFormulario({ slug }: { slug: string }) {
 }
 
 function Rodape({ config }: { config: ProdutoConfig }) {
-  const whatsappUrl = `https://wa.me/5561999999999?text=${encodeURIComponent(
+  const whatsappUrl = `https://wa.me/5561999867005?text=${encodeURIComponent(
     config.whatsappMensagem
   )}`;
 
@@ -278,8 +278,8 @@ function Rodape({ config }: { config: ProdutoConfig }) {
           <div className="flex items-center gap-2">
             <Image src="/logo.png" alt="Simples Assim" width={80} height={24} />
           </div>
-          <p>Via Seguros · SUSEP nº XXXXX · Todos os direitos reservados © {new Date().getFullYear()}</p>
-          <p>Corretor responsável: Fabio Salim · SUSEP nº XXXXX</p>
+          <p>Via Seguros · SUSEP nº 202018692 · CNPJ 22.663.893/0001-98 · Todos os direitos reservados © {new Date().getFullYear()}</p>
+          <p>Corretor responsável: Fabio Salim · SUSEP nº 202018692</p>
         </div>
       </div>
     </footer>
