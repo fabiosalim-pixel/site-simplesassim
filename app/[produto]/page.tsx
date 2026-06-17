@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import FormularioCotacao from "@/components/FormularioCotacao";
 import FormularioAutoQualificado from "@/components/FormularioAutoQualificado";
+import CalculeVoceMesmo from "@/components/CalculeVoceMesmo";
 import SiteHeader from "@/components/SiteHeader";
 import Image from "next/image";
 
@@ -69,6 +70,7 @@ const PRODUTOS: Record<string, ProdutoConfig> = {
     icone: "✈️",
     beneficios: [
       "Cobertura médica internacional",
+      "Mais de 60 coberturas para você viajar tranquilo",
       "Assistência 24h em português",
       "Proteção de bagagem",
       "Cancelamento de viagem",
@@ -282,7 +284,11 @@ export default async function ProdutoPage({
       <SiteHeader />
       <Hero config={config} />
       <CredibilidadeBar />
-      <SecaoFormulario slug={produto} />
+      {produto === "seguro-viagem" ? (
+        <CalculeVoceMesmo />
+      ) : (
+        <SecaoFormulario slug={produto} />
+      )}
       <Rodape config={config} />
     </main>
   );
