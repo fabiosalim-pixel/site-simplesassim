@@ -46,7 +46,7 @@ export default function CalculeVoceMesmo() {
   const seguradora = SEGURADORAS_VIAGEM[ativa];
 
   return (
-    <section className="bg-[#f7fafa] py-20 px-6" id="cotacao">
+    <section className="bg-[#f7fafa] py-20 px-6 scroll-mt-20" id="cotacao">
       <div className="max-w-3xl mx-auto text-center mb-10">
         <h2 className="text-3xl font-black text-[#535391] leading-tight mb-4">
           Calcule você mesmo

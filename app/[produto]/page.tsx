@@ -133,12 +133,13 @@ function Hero({ config }: { config: ProdutoConfig }) {
           {/* CTA WhatsApp — posição 1 (hero) */}
           {config.ctaSecundaria ? (
             <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm font-semibold underline transition-colors"
+              href="#cotacao"
+              className="inline-flex items-center gap-2 text-[#5CBECB] hover:text-white text-base font-bold transition-colors"
             >
-              Prefere falar com um corretor antes? Fale no WhatsApp →
+              Calcule você mesmo
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="animate-bounce">
+                <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </a>
           ) : (
             <a
@@ -296,7 +297,7 @@ export default async function ProdutoPage({
   if (!config) notFound();
 
   return (
-    <main className="min-h-screen font-[family-name:var(--font-nunito)]">
+    <main className="min-h-screen scroll-smooth font-[family-name:var(--font-nunito)]">
       <SiteHeader />
       <Hero config={config} />
       {produto !== "seguro-viagem" && <CredibilidadeBar />}
