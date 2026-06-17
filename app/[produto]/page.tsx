@@ -112,20 +112,21 @@ function Hero({ config }: { config: ProdutoConfig }) {
   const whatsappUrl = `https://wa.me/5561999867005?text=${encodeURIComponent(
     config.whatsappMensagem
   )}`;
+  const heroPadding = config.ctaSecundaria ? "py-10 md:py-12" : "py-20";
 
   return (
     <section className="bg-[#535391] text-white">
-      <div className="max-w-5xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
+      <div className={`max-w-5xl mx-auto px-6 ${heroPadding} grid md:grid-cols-2 gap-8 md:gap-12 items-center`}>
         {/* Texto */}
         <div>
-          <span className="inline-block text-4xl mb-4">{config.icone}</span>
-          <h1 className="text-4xl md:text-5xl font-black leading-tight mb-3">
+          <span className="inline-block text-4xl mb-3">{config.icone}</span>
+          <h1 className="text-3xl md:text-5xl font-black leading-tight mb-3">
             {config.titulo}
           </h1>
           <p className="text-xl text-[#5CBECB] font-semibold mb-4">
             {config.subtitulo}
           </p>
-          <p className="text-white/80 text-base leading-relaxed mb-8">
+          <p className="text-white/80 text-base leading-relaxed mb-6">
             {config.descricao}
           </p>
 
@@ -155,11 +156,11 @@ function Hero({ config }: { config: ProdutoConfig }) {
         </div>
 
         {/* Benefícios */}
-        <div className="bg-white/10 rounded-2xl p-7 backdrop-blur-sm">
-          <p className="text-[#5CBECB] font-bold text-sm uppercase tracking-widest mb-5">
+        <div className={`bg-white/10 rounded-2xl backdrop-blur-sm ${config.ctaSecundaria ? "p-5" : "p-7"}`}>
+          <p className="text-[#5CBECB] font-bold text-sm uppercase tracking-widest mb-4">
             Por que a Simples Assim?
           </p>
-          <ul className="space-y-4">
+          <ul className={config.ctaSecundaria ? "space-y-2.5" : "space-y-4"}>
             {config.beneficios.map((b, i) => (
               <li key={i} className="flex items-start gap-3 text-white/90">
                 <span className="text-[#E9854A] font-black text-lg leading-none mt-0.5">
