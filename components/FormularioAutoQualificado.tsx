@@ -220,19 +220,9 @@ export default function FormularioAutoQualificado() {
     setStatus("loading");
 
     try {
-      let apolicePath: string | null = null;
-
-      if (fluxo === "renovacao" && arquivo) {
-        const nomeSeguro = arquivo.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
-        const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${nomeSeguro}`;
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from("apolices-leads")
-          .upload(path, arquivo, { contentType: "application/pdf" });
-        if (uploadError) throw uploadError;
-        apolicePath = uploadData?.path ?? path;
-      }
-
-      const detalhes =
+      // PASSO 1 — gravar o lead PRIMEIRO (sem depender do upload).
+      // Se o upload falhar lá na frente, o lead já está salvo de qualquer forma.
+      const detalhes: Record<string, unknown> =
         fluxo === "renovacao"
           ? {
               fluxo,
@@ -256,19 +246,49 @@ export default function FormularioAutoQualificado() {
 
       const utms = getUtms();
 
-      const { error } = await supabase.from("leads").insert({
-        nome: nome.trim(),
-        telefone,
-        email: email.trim() || null,
-        tipo_seguro: "Seguro Auto",
-        origem: "Site",
-        consentimento_lgpd: true,
-        apolice_path: apolicePath,
-        detalhes,
-        ...utms,
-      });
+      const { data: leadInserido, error: leadError } = await supabase
+        .from("leads")
+        .insert({
+          nome: nome.trim(),
+          telefone,
+          email: email.trim() || null,
+          tipo_seguro: "Seguro Auto",
+          origem: "Site",
+          consentimento_lgpd: true,
+          apolice_path: null,
+          detalhes,
+          ...utms,
+        })
+        .select("id")
+        .single();
 
-      if (error) throw error;
+      if (leadError) throw leadError;
+
+      // PASSO 2 — upload do PDF é secundário. Se falhar, o lead já existe;
+      // só registramos a falha em "detalhes" e seguimos sem derrubar o envio.
+      if (fluxo === "renovacao" && arquivo && leadInserido) {
+        const nomeSeguro = arquivo.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
+        const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${nomeSeguro}`;
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from("apolices-leads")
+          .upload(path, arquivo, { contentType: "application/pdf" });
+
+        if (uploadError) {
+          // Não interrompe o fluxo: o lead já foi salvo no Passo 1.
+          await supabase
+            .from("leads")
+            .update({
+              detalhes: { ...detalhes, upload_apolice_falhou: true },
+            })
+            .eq("id", leadInserido.id);
+        } else {
+          const apolicePath = uploadData?.path ?? path;
+          await supabase
+            .from("leads")
+            .update({ apolice_path: apolicePath })
+            .eq("id", leadInserido.id);
+        }
+      }
 
       sendGAEvent("event", "gerar_lead", {
         tipo_seguro: "Seguro Auto",
@@ -277,7 +297,8 @@ export default function FormularioAutoQualificado() {
       });
 
       setStatus("success");
-    } catch {
+    } catch (err) {
+      console.error("Erro ao enviar lead:", err);
       setStatus("error");
       setErro("Erro ao enviar. Tente pelo WhatsApp.");
     }
