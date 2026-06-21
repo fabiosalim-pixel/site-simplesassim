@@ -51,8 +51,13 @@ export default function FormularioCotacao() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [erro, setErro] = useState("");
   const formRef = useRef<HTMLDivElement>(null);
+  const formIniciado = useRef(false);
 
   const handleChange = (field: keyof FormData, value: string | boolean) => {
+    if (!formIniciado.current) {
+      formIniciado.current = true;
+      sendGAEvent("event", "form_start", { formulario: "cotacao_simples" });
+    }
     setForm((prev) => ({
       ...prev,
       [field]: field === "telefone" ? fmtTelefone(value as string) : value,

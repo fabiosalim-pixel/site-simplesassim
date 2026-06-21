@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import WhatsappFlutuante from "@/components/WhatsappFlutuante";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -23,7 +24,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className={nunito.variable}>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        <WhatsappFlutuante />
+      </body>
       <GoogleAnalytics gaId="G-ZH7GRD0KQS" />
     </html>
   );

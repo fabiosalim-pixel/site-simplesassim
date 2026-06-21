@@ -275,6 +275,7 @@ export default function FormularioAutoQualificado() {
 
         if (uploadError) {
           // Não interrompe o fluxo: o lead já foi salvo no Passo 1.
+          sendGAEvent("event", "file_upload", { resultado: "falha" });
           await supabase
             .from("leads")
             .update({
@@ -282,6 +283,7 @@ export default function FormularioAutoQualificado() {
             })
             .eq("id", leadInserido.id);
         } else {
+          sendGAEvent("event", "file_upload", { resultado: "sucesso" });
           const apolicePath = uploadData?.path ?? path;
           await supabase
             .from("leads")
@@ -339,7 +341,11 @@ export default function FormularioAutoQualificado() {
         <div className="flex flex-col sm:flex-row gap-3">
           <button
             type="button"
-            onClick={() => setFluxo("renovacao")}
+            onClick={() => {
+              setFluxo("renovacao");
+              sendGAEvent("event", "form_start", { formulario: "auto_qualificado" });
+              sendGAEvent("event", "form_step", { etapa: "fluxo_renovacao" });
+            }}
             className="flex-1 text-left border-2 border-[#e0e0e0] rounded-2xl p-5 transition-all hover:border-[#5CBECB] hover:shadow-md"
           >
             <div className="text-2xl mb-2">📄</div>
@@ -351,7 +357,11 @@ export default function FormularioAutoQualificado() {
 
           <button
             type="button"
-            onClick={() => setFluxo("novo")}
+            onClick={() => {
+              setFluxo("novo");
+              sendGAEvent("event", "form_start", { formulario: "auto_qualificado" });
+              sendGAEvent("event", "form_step", { etapa: "fluxo_novo" });
+            }}
             className="flex-1 text-left border-2 border-[#e0e0e0] rounded-2xl p-5 transition-all hover:border-[#5CBECB] hover:shadow-md"
           >
             <div className="text-2xl mb-2">🚗</div>
