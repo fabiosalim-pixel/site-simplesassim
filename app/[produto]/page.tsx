@@ -10,6 +10,8 @@ import CalculeVoceMesmo, { type Seguradora } from "@/components/CalculeVoceMesmo
 import ContatoEquipe from "@/components/ContatoEquipe";
 import SiteHeader from "@/components/SiteHeader";
 import WhatsappLink from "@/components/WhatsappLink";
+import FAQ from "@/components/FAQ";
+import { FAQ_AUTO, FAQ_RESIDENCIAL, FAQ_VIAGEM } from "@/lib/faq-data";
 import Image from "next/image";
 
 /* ─── CONFIGURAÇÃO DE PRODUTOS ─────────────────────────────────────────── */
@@ -135,6 +137,14 @@ const SEGURADORAS_POR_PRODUTO: Record<string, Seguradora[]> = {
 };
 
 
+
+/* ─── FAQ POR PRODUTO ───────────────────────────────────────────────── */
+
+const FAQ_POR_PRODUTO: Record<string, typeof FAQ_AUTO> = {
+  "seguro-auto": FAQ_AUTO,
+  "seguro-residencial": FAQ_RESIDENCIAL,
+  "seguro-viagem": FAQ_VIAGEM,
+};
 
 export async function generateStaticParams() {
   return Object.keys(PRODUTOS).map((slug) => ({ produto: slug }));
@@ -361,6 +371,8 @@ export default async function ProdutoPage({
       ) : (
         <SecaoFormulario slug={produto} />
       )}
+
+      <FAQ itens={FAQ_POR_PRODUTO[produto]} produto={config.titulo} />
 
       <Rodape config={config} />
     </main>
