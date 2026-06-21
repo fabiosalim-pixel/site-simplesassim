@@ -6,6 +6,7 @@ import { sendGAEvent } from "@next/third-parties/google";
 
 type Fluxo = "renovacao" | "novo" | null;
 type Bool3 = boolean | null;
+type Passo = 1 | 2 | 3;
 
 const ESTADOS_CIVIS = [
   "Solteiro(a)",
@@ -132,19 +133,43 @@ function ToggleOpcoes<T extends string>({
   );
 }
 
+function BarraProgresso({ passo }: { passo: Passo }) {
+  return (
+    <div className="flex items-center gap-2 mb-5">
+      <span className="text-xs font-bold text-[#5CBECB] uppercase tracking-wide">
+        Passo {passo} de 3
+      </span>
+      <div className="flex-1 flex gap-1.5">
+        {[1, 2, 3].map((n) => (
+          <div
+            key={n}
+            className={`h-1.5 flex-1 rounded-full transition-colors ${
+              n <= passo ? "bg-[#5CBECB]" : "bg-[#e8f7f8]"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const inputClass =
   "w-full border border-[#e0e0e0] rounded-xl px-4 py-3 text-sm text-[#333333] focus:outline-none focus:border-[#5CBECB] focus:ring-1 focus:ring-[#5CBECB] transition-colors";
 const labelClass =
   "block text-xs font-semibold text-[#333333]/60 uppercase tracking-wide mb-1.5";
+const botaoAvancar =
+  "w-full bg-[#5CBECB] hover:bg-[#4aa9b6] text-white font-bold py-4 rounded-xl text-base transition-all shadow-sm hover:shadow-md";
+const botaoVoltar = "text-xs text-[#5CBECB] font-semibold underline mb-5";
 
 // ── Componente principal ──────────────────────────────────
 
 export default function FormularioAutoQualificado() {
   const [fluxo, setFluxo] = useState<Fluxo>(null);
+  const [passo, setPasso] = useState<Passo>(1);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [erro, setErro] = useState("");
 
-  // contato (comum aos dois fluxos)
+  // contato (comum aos dois fluxos) — preenchido no Passo 2
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
   const [email, setEmail] = useState("");
@@ -184,14 +209,31 @@ export default function FormularioAutoQualificado() {
     setArquivo(f);
   };
 
-  const validar = (): string | null => {
+  // ── Validações por passo ──
+
+  const validarPasso1 = (): string | null => {
     if (fluxo === "renovacao") {
-      if (!arquivo) return "Anexe o PDF da sua apólice vigente.";
       if (teveSinistro === null) return "Informe se teve sinistro na última vigência.";
       if (alterouDados === null)
         return "Informe se houve alteração de estado civil, endereço ou condutor.";
     } else {
       if (!tipoVeiculo) return "Informe se o carro é Zero KM ou Usado.";
+      if (!tipoUso) return "Informe o tipo de utilização do veículo.";
+    }
+    return null;
+  };
+
+  const validarPasso2 = (): string | null => {
+    if (!nome.trim()) return "Informe seu nome.";
+    if (!telefone.trim()) return "Informe seu telefone.";
+    if (!lgpd) return "Confirme o consentimento para continuar.";
+    return null;
+  };
+
+  const validarPasso3 = (): string | null => {
+    if (fluxo === "renovacao") {
+      if (!arquivo) return "Anexe o PDF da sua apólice vigente.";
+    } else {
       if (tipoVeiculo === "Zero KM" && !chassi.trim())
         return "Informe o chassi do veículo.";
       if (tipoVeiculo === "Usado" && (!placa.trim() || !modelo.trim() || !ano.trim()))
@@ -199,19 +241,34 @@ export default function FormularioAutoQualificado() {
       if (!cpf.trim()) return "Informe o CPF do condutor principal.";
       if (!estadoCivil) return "Informe o estado civil.";
       if (!cep.trim()) return "Informe o CEP de pernoite.";
-      if (!tipoUso) return "Informe o tipo de utilização do veículo.";
       if (temGaragem === null) return "Informe se há garagem disponível.";
       if (condutor1825 === null)
         return "Informe se há condutores entre 18 e 25 anos.";
     }
-    if (!nome.trim()) return "Informe seu nome.";
-    if (!telefone.trim()) return "Informe seu telefone.";
-    if (!lgpd) return "Confirme o consentimento para continuar.";
     return null;
   };
 
+  const avancarPasso = () => {
+    const erroValidacao = passo === 1 ? validarPasso1() : validarPasso2();
+    if (erroValidacao) {
+      setErro(erroValidacao);
+      return;
+    }
+    setErro("");
+    const proximoPasso = (passo + 1) as Passo;
+    setPasso(proximoPasso);
+    sendGAEvent("event", "form_step", {
+      etapa: `passo_${proximoPasso}_${fluxo}`,
+    });
+  };
+
+  const voltarPasso = () => {
+    setErro("");
+    setPasso((p) => (p > 1 ? ((p - 1) as Passo) : 1));
+  };
+
   const handleSubmit = async () => {
-    const erroValidacao = validar();
+    const erroValidacao = validarPasso3();
     if (erroValidacao) {
       setErro(erroValidacao);
       return;
@@ -220,7 +277,7 @@ export default function FormularioAutoQualificado() {
     setStatus("loading");
 
     try {
-      // PASSO 1 — gravar o lead PRIMEIRO (sem depender do upload).
+      // PASSO 1 (envio) — gravar o lead PRIMEIRO (sem depender do upload).
       // Se o upload falhar lá na frente, o lead já está salvo de qualquer forma.
       const detalhes: Record<string, unknown> =
         fluxo === "renovacao"
@@ -264,7 +321,7 @@ export default function FormularioAutoQualificado() {
 
       if (leadError) throw leadError;
 
-      // PASSO 2 — upload do PDF é secundário. Se falhar, o lead já existe;
+      // PASSO 2 (envio) — upload do PDF é secundário. Se falhar, o lead já existe;
       // só registramos a falha em "detalhes" e seguimos sem derrubar o envio.
       if (fluxo === "renovacao" && arquivo && leadInserido) {
         const nomeSeguro = arquivo.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
@@ -323,7 +380,7 @@ export default function FormularioAutoQualificado() {
     );
   }
 
-  // ── Passo inicial ──
+  // ── Tela inicial: escolha do fluxo ──
   if (fluxo === null) {
     return (
       <div className="bg-white rounded-2xl shadow-sm border border-[#e8f7f8] p-7">
@@ -343,6 +400,7 @@ export default function FormularioAutoQualificado() {
             type="button"
             onClick={() => {
               setFluxo("renovacao");
+              setPasso(1);
               sendGAEvent("event", "form_start", { formulario: "auto_qualificado" });
               sendGAEvent("event", "form_step", { etapa: "fluxo_renovacao" });
             }}
@@ -359,6 +417,7 @@ export default function FormularioAutoQualificado() {
             type="button"
             onClick={() => {
               setFluxo("novo");
+              setPasso(1);
               sendGAEvent("event", "form_start", { formulario: "auto_qualificado" });
               sendGAEvent("event", "form_step", { etapa: "fluxo_novo" });
             }}
@@ -375,77 +434,183 @@ export default function FormularioAutoQualificado() {
     );
   }
 
-  // ── Fluxos (renovação ou novo) ──
+  const tituloFluxo = fluxo === "renovacao" ? "Comparar minha renovação" : "Cotar seguro novo";
+
+  // ── Passo 1: qualificação leve (sem dado sensível) ──
+  if (passo === 1) {
+    return (
+      <div className="bg-white rounded-2xl shadow-sm border border-[#e8f7f8] p-7">
+        <button type="button" onClick={() => setFluxo(null)} className={botaoVoltar}>
+          ← Trocar resposta
+        </button>
+
+        <BarraProgresso passo={1} />
+
+        <h3 className="text-lg font-black text-[#535391] mb-6">{tituloFluxo}</h3>
+
+        <div className="space-y-4">
+          {fluxo === "renovacao" ? (
+            <>
+              <ToggleSimNao
+                label="Teve sinistro na última vigência?"
+                value={teveSinistro}
+                onChange={setTeveSinistro}
+              />
+              <ToggleSimNao
+                label="Mudou estado civil, endereço ou condutor principal?"
+                value={alterouDados}
+                onChange={setAlterouDados}
+              />
+            </>
+          ) : (
+            <>
+              <ToggleOpcoes
+                label="O carro é"
+                opcoes={["Zero KM", "Usado"] as const}
+                value={tipoVeiculo}
+                onChange={setTipoVeiculo}
+              />
+              <ToggleOpcoes
+                label="Tipo de utilização"
+                opcoes={["Particular", "Uber/App"] as const}
+                value={tipoUso}
+                onChange={setTipoUso}
+              />
+            </>
+          )}
+
+          {erro && <p className="text-red-500 text-xs font-medium">{erro}</p>}
+
+          <button type="button" onClick={avancarPasso} className={botaoAvancar}>
+            Continuar
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Passo 2: contato ──
+  if (passo === 2) {
+    return (
+      <div className="bg-white rounded-2xl shadow-sm border border-[#e8f7f8] p-7">
+        <button type="button" onClick={voltarPasso} className={botaoVoltar}>
+          ← Voltar
+        </button>
+
+        <BarraProgresso passo={2} />
+
+        <h3 className="text-lg font-black text-[#535391] mb-2">
+          Quem vamos contatar?
+        </h3>
+        <p className="text-[#333333]/60 text-sm mb-6">
+          Só mais um passo depois deste para finalizar.
+        </p>
+
+        <div className="space-y-4">
+          <div>
+            <label className={labelClass}>Nome completo *</label>
+            <input
+              type="text"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              placeholder="Seu nome"
+              className={inputClass}
+            />
+          </div>
+
+          <div>
+            <label className={labelClass}>Telefone / WhatsApp *</label>
+            <input
+              type="tel"
+              value={telefone}
+              onChange={(e) => setTelefone(fmtTelefone(e.target.value))}
+              placeholder="(61) 99999-9999"
+              className={inputClass}
+            />
+          </div>
+
+          <div>
+            <label className={labelClass}>E-mail (opcional)</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="seu@email.com"
+              className={inputClass}
+            />
+          </div>
+
+          {/* LGPD */}
+          <div className="flex items-start gap-3 pt-1">
+            <input
+              type="checkbox"
+              id="lgpd-auto"
+              checked={lgpd}
+              onChange={(e) => setLgpd(e.target.checked)}
+              className="mt-0.5 w-4 h-4 accent-[#5CBECB] cursor-pointer flex-shrink-0"
+            />
+            <label htmlFor="lgpd-auto" className="text-xs text-[#333333]/50 leading-relaxed cursor-pointer">
+              Concordo com o uso dos meus dados para contato comercial, conforme a{" "}
+              <span className="text-[#5CBECB] underline">Política de Privacidade</span> e a LGPD.
+            </label>
+          </div>
+
+          {erro && <p className="text-red-500 text-xs font-medium">{erro}</p>}
+
+          <button type="button" onClick={avancarPasso} className={botaoAvancar}>
+            Continuar
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Passo 3: qualificação fina (upload / dados sensíveis) ──
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-[#e8f7f8] p-7">
-      <button
-        type="button"
-        onClick={() => setFluxo(null)}
-        className="text-xs text-[#5CBECB] font-semibold underline mb-5"
-      >
-        ← Trocar resposta
+      <button type="button" onClick={voltarPasso} className={botaoVoltar}>
+        ← Voltar
       </button>
 
-      <h3 className="text-lg font-black text-[#535391] mb-6">
-        {fluxo === "renovacao" ? "Comparar minha renovação" : "Cotar seguro novo"}
-      </h3>
+      <BarraProgresso passo={3} />
+
+      <h3 className="text-lg font-black text-[#535391] mb-6">{tituloFluxo}</h3>
 
       <div className="space-y-4">
         {fluxo === "renovacao" ? (
-          <>
-            {/* Upload da apólice */}
-            <div>
-              <label className={labelClass}>Apólice vigente em PDF *</label>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="application/pdf"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-              {arquivo ? (
-                <div className="flex items-center justify-between border border-[#5CBECB] bg-[#f6fcfd] rounded-xl px-4 py-3">
-                  <span className="text-sm text-[#333333] truncate">📎 {arquivo.name}</span>
-                  <button
-                    type="button"
-                    onClick={() => setArquivo(null)}
-                    className="text-[#333333]/40 hover:text-red-500 text-sm font-bold ml-3"
-                  >
-                    ✕
-                  </button>
-                </div>
-              ) : (
+          <div>
+            <label className={labelClass}>Apólice vigente em PDF *</label>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="application/pdf"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            {arquivo ? (
+              <div className="flex items-center justify-between border border-[#5CBECB] bg-[#f6fcfd] rounded-xl px-4 py-3">
+                <span className="text-sm text-[#333333] truncate">📎 {arquivo.name}</span>
                 <button
                   type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="w-full border-2 border-dashed border-[#e0e0e0] rounded-xl px-4 py-5 text-sm text-[#333333]/60 hover:border-[#5CBECB] transition-colors text-center"
+                  onClick={() => setArquivo(null)}
+                  className="text-[#333333]/40 hover:text-red-500 text-sm font-bold ml-3"
                 >
-                  Toque para anexar o PDF da apólice
-                  <div className="text-xs text-[#333333]/40 mt-1">Até 10MB</div>
+                  ✕
                 </button>
-              )}
-            </div>
-
-            <ToggleSimNao
-              label="Teve sinistro na última vigência?"
-              value={teveSinistro}
-              onChange={setTeveSinistro}
-            />
-            <ToggleSimNao
-              label="Mudou estado civil, endereço ou condutor principal?"
-              value={alterouDados}
-              onChange={setAlterouDados}
-            />
-          </>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full border-2 border-dashed border-[#e0e0e0] rounded-xl px-4 py-5 text-sm text-[#333333]/60 hover:border-[#5CBECB] transition-colors text-center"
+              >
+                Toque para anexar o PDF da apólice
+                <div className="text-xs text-[#333333]/40 mt-1">Até 10MB</div>
+              </button>
+            )}
+          </div>
         ) : (
           <>
-            <ToggleOpcoes
-              label="O carro é"
-              opcoes={["Zero KM", "Usado"] as const}
-              value={tipoVeiculo}
-              onChange={setTipoVeiculo}
-            />
-
             {tipoVeiculo === "Zero KM" && (
               <div>
                 <label className={labelClass}>Chassi *</label>
@@ -530,12 +695,6 @@ export default function FormularioAutoQualificado() {
               />
             </div>
 
-            <ToggleOpcoes
-              label="Tipo de utilização"
-              opcoes={["Particular", "Uber/App"] as const}
-              value={tipoUso}
-              onChange={setTipoUso}
-            />
             <ToggleSimNao
               label="Tem garagem em casa ou no trabalho?"
               value={temGaragem}
@@ -548,61 +707,6 @@ export default function FormularioAutoQualificado() {
             />
           </>
         )}
-
-        {/* Contato — comum aos dois fluxos */}
-        <div className="pt-2 border-t border-[#e8f7f8]">
-          <p className="text-xs font-bold text-[#535391] uppercase tracking-wide mb-3 mt-3">
-            Quem vamos contatar?
-          </p>
-        </div>
-
-        <div>
-          <label className={labelClass}>Nome completo *</label>
-          <input
-            type="text"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            placeholder="Seu nome"
-            className={inputClass}
-          />
-        </div>
-
-        <div>
-          <label className={labelClass}>Telefone / WhatsApp *</label>
-          <input
-            type="tel"
-            value={telefone}
-            onChange={(e) => setTelefone(fmtTelefone(e.target.value))}
-            placeholder="(61) 99999-9999"
-            className={inputClass}
-          />
-        </div>
-
-        <div>
-          <label className={labelClass}>E-mail (opcional)</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="seu@email.com"
-            className={inputClass}
-          />
-        </div>
-
-        {/* LGPD */}
-        <div className="flex items-start gap-3 pt-1">
-          <input
-            type="checkbox"
-            id="lgpd-auto"
-            checked={lgpd}
-            onChange={(e) => setLgpd(e.target.checked)}
-            className="mt-0.5 w-4 h-4 accent-[#5CBECB] cursor-pointer flex-shrink-0"
-          />
-          <label htmlFor="lgpd-auto" className="text-xs text-[#333333]/50 leading-relaxed cursor-pointer">
-            Concordo com o uso dos meus dados para contato comercial, conforme a{" "}
-            <span className="text-[#5CBECB] underline">Política de Privacidade</span> e a LGPD.
-          </label>
-        </div>
 
         {erro && <p className="text-red-500 text-xs font-medium">{erro}</p>}
 
