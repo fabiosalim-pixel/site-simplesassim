@@ -209,7 +209,7 @@ export default function FormularioCotacao() {
           <p className="text-center text-xs text-[#333333]/40">
             Problema técnico?{" "}
             <a
-              href="https://wa.me/5561999999999"
+              href="https://wa.me/5561999867005"
               className="text-[#25D366] font-semibold"
               target="_blank"
               rel="noopener noreferrer"

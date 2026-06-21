@@ -69,7 +69,7 @@ serve(async (req) => {
               <div style="background: #f7fafa; padding: 24px; border-radius: 0 0 12px 12px; border: 1px solid #e8f7f8;">
                 <p style="color: #333; line-height: 1.6;">Recebemos sua solicitação de cotação de <strong>${tipo_seguro ?? "seguro"}</strong> e um corretor especializado entrará em contato com você em até <strong>2 horas úteis</strong>.</p>
                 <p style="color: #333; line-height: 1.6;">Se preferir falar agora, é só chamar no WhatsApp:</p>
-                <a href="https://wa.me/5561981174515" 
+                <a href="https://wa.me/5561999867005" 
                   style="display: inline-block; margin-top: 8px; background: #25D366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">
                   Chamar no WhatsApp
                 </a>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { sendGAEvent } from "@next/third-parties/google";
 
 export type Seguradora = {
   nome: string;
@@ -44,7 +45,13 @@ export default function CalculeVoceMesmo({
           <button
             key={s.nome}
             type="button"
-            onClick={() => setAtiva(i)}
+            onClick={() => {
+              setAtiva(i);
+              sendGAEvent("event", "select_seguradora", {
+                seguradora: s.nome,
+                produto: produtoLabel,
+              });
+            }}
             className={`px-5 py-2.5 rounded-xl text-sm font-semibold border-2 transition-colors ${
               ativa === i
                 ? "bg-[#5CBECB] border-[#5CBECB] text-white"
@@ -68,6 +75,12 @@ export default function CalculeVoceMesmo({
           href={seguradora.link}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            sendGAEvent("event", "comprar_seguradora_click", {
+              seguradora: seguradora.nome,
+              produto: produtoLabel,
+            })
+          }
           className="inline-flex items-center gap-2 bg-[#E9854A] hover:bg-[#d9743b] text-white font-bold px-7 py-4 rounded-xl text-base transition-all shadow-sm hover:shadow-md"
         >
           Comprar com a {seguradora.nome} →
@@ -89,6 +102,12 @@ export default function CalculeVoceMesmo({
           href={whatsappNaoEncontrou}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            sendGAEvent("event", "whatsapp_click", {
+              origem: "calcule_voce_mesmo_nao_encontrou",
+              produto: produtoLabel,
+            })
+          }
           className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe5a] text-white font-bold px-6 py-3 rounded-xl text-sm transition-all"
         >
           Falar no WhatsApp →

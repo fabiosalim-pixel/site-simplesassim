@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
+import CtaLink from "@/components/CtaLink";
+import WhatsappLink from "@/components/WhatsappLink";
 
 // ─────────────────────────────────────────────────────────────
 const WHATSAPP =
@@ -87,20 +89,20 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 mt-9">
-              <a
+              <CtaLink
                 href="#produtos"
+                origem="home_hero"
                 className="bg-[#E9854A] hover:bg-[#d9743b] text-white font-bold px-7 py-4 rounded-xl text-center transition-all shadow-sm hover:shadow-md"
               >
                 Quero minha cotação
-              </a>
-              <a
+              </CtaLink>
+              <WhatsappLink
                 href={WHATSAPP}
-                target="_blank"
-                rel="noopener noreferrer"
+                origem="home_hero"
                 className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5a] text-white font-bold px-7 py-4 rounded-xl text-center transition-all"
               >
                 Falar no WhatsApp
-              </a>
+              </WhatsappLink>
             </div>
           </div>
 
@@ -256,14 +258,13 @@ export default function Home() {
             <p>CNPJ 22.663.893/0001-98 · Brasília/DF</p>
             <p className="mt-2">Tel/WhatsApp: (61) 99986-7005</p>
           </div>
-          <a
+          <WhatsappLink
             href={WHATSAPP}
-            target="_blank"
-            rel="noopener noreferrer"
+            origem="home_rodape"
             className="text-sm font-semibold text-[#5CBECB] hover:text-white transition-colors"
           >
             Fale pelo WhatsApp →
-          </a>
+          </WhatsappLink>
         </div>
       </footer>
     </main>

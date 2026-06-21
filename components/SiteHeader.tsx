@@ -1,10 +1,17 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { sendGAEvent } from "@next/third-parties/google";
 
 const WHATSAPP_NUMERO = "5561999867005";
 
 function waLink(mensagem: string) {
   return `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensagem)}`;
+}
+
+function trackWhatsapp(origem: string) {
+  sendGAEvent("event", "whatsapp_click", { origem });
 }
 
 const PRODUTOS_MENU = [
@@ -36,6 +43,7 @@ function ItemMenuProduto({ p }: { p: (typeof PRODUTOS_MENU)[number] }) {
       href={p.href}
       target={externo ? "_blank" : undefined}
       rel={externo ? "noopener noreferrer" : undefined}
+      onClick={externo ? () => trackWhatsapp(`menu_produto_${p.nome.toLowerCase()}`) : undefined}
       className="flex items-center gap-2 px-4 py-2.5 text-sm text-[#333333] hover:bg-[#f6fcfd] hover:text-[#5CBECB] transition-colors"
     >
       <span>{p.icone}</span>
@@ -91,6 +99,7 @@ export default function SiteHeader() {
             href={waLink("Olá! Quero uma cotação.")}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackWhatsapp("header_desktop")}
             className="text-sm font-semibold text-[#25D366] hover:text-[#1ebe5a] transition-colors"
           >
             Fale pelo WhatsApp →
@@ -121,6 +130,7 @@ export default function SiteHeader() {
               href={waLink("Olá! Quero uma cotação.")}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackWhatsapp("header_mobile")}
               className="block px-3 py-2.5 rounded-lg text-sm font-bold text-[#25D366] hover:bg-[#f6fcfd]"
             >
               Fale pelo WhatsApp →
