@@ -83,7 +83,7 @@ export default function FAQ({
   return (
     <section className="bg-white py-16 px-6">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl md:text-3xl font-black text-[#535391] mb-8 text-center">
+        <h2 className="text-2xl md:text-3xl font-bold text-[#535391] mb-8 text-center">
           {titulo}
         </h2>
         <div className="space-y-3">

@@ -78,8 +78,8 @@ export default function Home() {
             <p className="text-[#5CBECB] font-bold text-sm uppercase tracking-widest mb-4">
               Corretora de seguros
             </p>
-            <h1 className="text-4xl md:text-5xl font-black leading-tight">
-              Cotamos com as melhores seguradoras.
+            <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
+              O seguro certo, sem dor de cabeça.
             </h1>
             <p className="text-xl md:text-2xl font-bold text-[#5CBECB] mt-4">
               Atendimento humano e sem burocracia. Simples Assim&nbsp;;)
@@ -144,7 +144,7 @@ export default function Home() {
             <p className="text-[#B85A22] font-bold text-xs uppercase tracking-widest mb-3">
               Quem está por trás
             </p>
-            <h2 className="text-2xl md:text-3xl font-black text-[#535391] mb-5">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#535391] mb-5">
               Sobre a Simples Assim
             </h2>
             <p className="text-[#333333]/70 leading-relaxed mb-4">
@@ -196,7 +196,7 @@ export default function Home() {
       {/* ── Seguradoras parceiras ── */}
       <section className="bg-[#f6fcfd] border-y border-[#e8f7f8]">
         <div className="max-w-6xl mx-auto px-6 py-14">
-          <h2 className="text-xl md:text-2xl font-black text-[#535391] text-center mb-2">
+          <h2 className="text-xl md:text-2xl font-bold text-[#535391] text-center mb-2">
             Seguradoras parceiras
           </h2>
           <p className="text-[#333333]/75 text-center text-sm mb-8">
@@ -218,7 +218,7 @@ export default function Home() {
       {/* ── Produtos ── */}
       <section id="produtos" className="bg-white border-b border-[#e8f7f8]">
         <div className="max-w-6xl mx-auto px-6 py-16">
-          <h2 className="text-2xl md:text-3xl font-black text-[#535391] mb-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-[#535391] mb-2">
             Qual seguro você procura?
           </h2>
           <p className="text-[#333333]/75 mb-10">
@@ -233,7 +233,7 @@ export default function Home() {
                 className="group bg-white rounded-2xl border border-[#e8f7f8] p-7 shadow-sm hover:shadow-md hover:border-[#5CBECB] transition-all"
               >
                 <div className="text-4xl mb-4">{p.emoji}</div>
-                <h3 className="text-lg font-black text-[#535391] mb-2">
+                <h3 className="text-lg font-bold text-[#535391] mb-2">
                   {p.nome}
                 </h3>
                 <p className="text-[#333333]/75 text-sm leading-relaxed mb-4">

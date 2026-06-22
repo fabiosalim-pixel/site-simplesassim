@@ -14,7 +14,7 @@ export default function PrivacidadePage() {
 
       <section className="bg-[#535391] text-white">
         <div className="max-w-3xl mx-auto px-6 py-14 text-center">
-          <h1 className="text-3xl md:text-4xl font-black leading-tight">
+          <h1 className="text-3xl md:text-4xl font-extrabold leading-tight">
             Política de Privacidade
           </h1>
           <p className="text-white/80 text-sm mt-3">
@@ -33,7 +33,7 @@ export default function PrivacidadePage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-black text-[#535391] mb-3">
+            <h2 className="text-xl font-bold text-[#535391] mb-3">
               1. Quem somos
             </h2>
             <p>
@@ -46,7 +46,7 @@ export default function PrivacidadePage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-black text-[#535391] mb-3">
+            <h2 className="text-xl font-bold text-[#535391] mb-3">
               2. Quais dados coletamos
             </h2>
             <p className="mb-3">
@@ -73,7 +73,7 @@ export default function PrivacidadePage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-black text-[#535391] mb-3">
+            <h2 className="text-xl font-bold text-[#535391] mb-3">
               3. Para que usamos seus dados
             </h2>
             <ul className="list-disc pl-5 space-y-1.5">
@@ -96,7 +96,7 @@ export default function PrivacidadePage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-black text-[#535391] mb-3">
+            <h2 className="text-xl font-bold text-[#535391] mb-3">
               4. Onde seus dados ficam armazenados
             </h2>
             <p>
@@ -108,7 +108,7 @@ export default function PrivacidadePage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-black text-[#535391] mb-3">
+            <h2 className="text-xl font-bold text-[#535391] mb-3">
               5. Por quanto tempo guardamos seus dados
             </h2>
             <p>
@@ -120,7 +120,7 @@ export default function PrivacidadePage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-black text-[#535391] mb-3">
+            <h2 className="text-xl font-bold text-[#535391] mb-3">
               6. Seus direitos
             </h2>
             <p className="mb-3">
@@ -148,7 +148,7 @@ export default function PrivacidadePage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-black text-[#535391] mb-3">
+            <h2 className="text-xl font-bold text-[#535391] mb-3">
               7. Cookies e analytics
             </h2>
             <p>
@@ -160,7 +160,7 @@ export default function PrivacidadePage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-black text-[#535391] mb-3">
+            <h2 className="text-xl font-bold text-[#535391] mb-3">
               8. Alterações nesta política
             </h2>
             <p>
@@ -170,7 +170,7 @@ export default function PrivacidadePage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-black text-[#535391] mb-3">
+            <h2 className="text-xl font-bold text-[#535391] mb-3">
               9. Contato
             </h2>
             <p>

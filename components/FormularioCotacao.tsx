@@ -102,7 +102,7 @@ export default function FormularioCotacao() {
     return (
       <div className="bg-white rounded-2xl shadow-sm border border-[#e8f7f8] p-8 text-center">
         <div className="text-5xl mb-4">✅</div>
-        <h3 className="text-xl font-black text-[#535391] mb-2">
+        <h3 className="text-xl font-bold text-[#535391] mb-2">
           Recebemos sua solicitação!
         </h3>
         <p className="text-[#333333]/75 text-sm">
@@ -117,7 +117,7 @@ export default function FormularioCotacao() {
       ref={formRef}
       className="bg-white rounded-2xl shadow-sm border border-[#e8f7f8] p-7"
     >
-      <h3 className="text-lg font-black text-[#535391] mb-6">
+      <h3 className="text-lg font-bold text-[#535391] mb-6">
         Solicitar cotação gratuita
       </h3>
 

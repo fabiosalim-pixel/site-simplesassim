@@ -20,7 +20,7 @@ export default function FaqPage() {
           <p className="text-[#5CBECB] font-bold text-sm uppercase tracking-widest mb-3">
             Tire suas dúvidas
           </p>
-          <h1 className="text-3xl md:text-4xl font-black leading-tight">
+          <h1 className="text-3xl md:text-4xl font-extrabold leading-tight">
             Perguntas frequentes
           </h1>
           <p className="text-white/80 text-lg mt-4 max-w-xl mx-auto leading-relaxed">

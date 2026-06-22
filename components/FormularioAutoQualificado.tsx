@@ -371,7 +371,7 @@ export default function FormularioAutoQualificado() {
     return (
       <div className="bg-white rounded-2xl shadow-sm border border-[#e8f7f8] p-8 text-center">
         <div className="text-5xl mb-4">✅</div>
-        <h3 className="text-xl font-black text-[#535391] mb-2">
+        <h3 className="text-xl font-bold text-[#535391] mb-2">
           Recebemos sua solicitação!
         </h3>
         <p className="text-[#333333]/75 text-sm">
@@ -390,7 +390,7 @@ export default function FormularioAutoQualificado() {
         <p className="text-[#B85A22] font-bold text-xs uppercase tracking-widest mb-2">
           Cotação qualificada
         </p>
-        <h3 className="text-xl font-black text-[#535391] mb-2">
+        <h3 className="text-xl font-bold text-[#535391] mb-2">
           Você já tem seguro auto?
         </h3>
         <p className="text-[#333333]/75 text-sm mb-6">
@@ -449,7 +449,7 @@ export default function FormularioAutoQualificado() {
 
         <BarraProgresso passo={1} />
 
-        <h3 className="text-lg font-black text-[#535391] mb-6">{tituloFluxo}</h3>
+        <h3 className="text-lg font-bold text-[#535391] mb-6">{tituloFluxo}</h3>
 
         <div className="space-y-4">
           {fluxo === "renovacao" ? (
@@ -502,7 +502,7 @@ export default function FormularioAutoQualificado() {
 
         <BarraProgresso passo={2} />
 
-        <h3 className="text-lg font-black text-[#535391] mb-2">
+        <h3 className="text-lg font-bold text-[#535391] mb-2">
           Quem vamos contatar?
         </h3>
         <p className="text-[#333333]/75 text-sm mb-6">
@@ -583,7 +583,7 @@ export default function FormularioAutoQualificado() {
 
       <BarraProgresso passo={3} />
 
-      <h3 className="text-lg font-black text-[#535391] mb-6">{tituloFluxo}</h3>
+      <h3 className="text-lg font-bold text-[#535391] mb-6">{tituloFluxo}</h3>
 
       <div className="space-y-4">
         {fluxo === "renovacao" ? (

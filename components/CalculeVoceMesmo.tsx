@@ -30,7 +30,7 @@ export default function CalculeVoceMesmo({
   return (
     <section className="bg-[#f7fafa] py-20 px-6 scroll-mt-20" id="cotacao">
       <div className="max-w-3xl mx-auto text-center mb-10">
-        <h2 className="text-3xl font-black text-[#535391] leading-tight mb-4">
+        <h2 className="text-3xl font-bold text-[#535391] leading-tight mb-4">
           Calcule você mesmo
         </h2>
         <p className="text-[#333333]/70 text-base leading-relaxed">
@@ -65,7 +65,7 @@ export default function CalculeVoceMesmo({
 
       {/* Card da seguradora ativa */}
       <div className="max-w-xl mx-auto bg-white rounded-2xl border border-[#e8f7f8] shadow-sm p-8 text-center">
-        <h3 className="text-xl font-black text-[#535391] mb-3">
+        <h3 className="text-xl font-bold text-[#535391] mb-3">
           {seguradora.nome}
         </h3>
         <p className="text-[#333333]/70 text-sm leading-relaxed mb-7">
@@ -81,7 +81,7 @@ export default function CalculeVoceMesmo({
               produto: produtoLabel,
             })
           }
-          className="inline-flex items-center gap-2 bg-[#E9854A] hover:bg-[#d9743b] text-white font-bold px-7 py-4 rounded-xl text-base transition-all shadow-sm hover:shadow-md"
+          className="inline-flex items-center gap-2 bg-[#B85A22] hover:bg-[#A04E1D] text-white font-bold px-7 py-4 rounded-xl text-base transition-all shadow-sm hover:shadow-md"
         >
           Comprar com a {seguradora.nome} →
         </a>
@@ -108,7 +108,7 @@ export default function CalculeVoceMesmo({
               produto: produtoLabel,
             })
           }
-          className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe5a] text-white font-bold px-6 py-3 rounded-xl text-sm transition-all"
+          className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe5a] text-[#1a1a1a] font-bold px-6 py-3 rounded-xl text-sm transition-all"
         >
           Falar no WhatsApp →
         </a>
