@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import SiteHeader from "@/components/SiteHeader";
-import Footer from "@/components/Footer";
 import WhatsappLink from "@/components/WhatsappLink";
 
 export const metadata: Metadata = {
@@ -90,9 +89,21 @@ export default function ContatoPage() {
           </div>
         </div>
 
+        <div className="max-w-4xl mx-auto mt-10 text-center">
+          <p className="text-[#333333]/75 text-sm">
+            Via Seguros ·{" "}
+            <a
+              href="https://www2.susep.gov.br/safe/Corretores/pesquisa"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#5CBECB] underline"
+            >
+              SUSEP nº 202018692
+            </a>{" "}
+            · CNPJ 22.663.893/0001-98
+          </p>
+        </div>
       </section>
-
-      <Footer />
     </main>
   );
 }

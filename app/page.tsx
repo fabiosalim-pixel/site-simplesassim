@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
+import Footer from "@/components/Footer";
 import CtaLink from "@/components/CtaLink";
 import WhatsappLink from "@/components/WhatsappLink";
 
@@ -248,35 +249,7 @@ export default function Home() {
       </section>
 
       {/* ── Rodapé ── */}
-      <footer className="bg-[#535391] text-white/85">
-        <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-          <div className="text-sm leading-relaxed">
-            <p className="font-bold text-white mb-1">
-              Simples Assim · Via Seguros
-            </p>
-            <p>
-              Corretora de seguros ·{" "}
-              <a
-                href="https://www2.susep.gov.br/safe/Corretores/pesquisa"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:text-white"
-              >
-                SUSEP nº 202018692
-              </a>
-            </p>
-            <p>CNPJ 22.663.893/0001-98 · Brasília/DF</p>
-            <p className="mt-2">Tel/WhatsApp: (61) 99986-7005</p>
-          </div>
-          <WhatsappLink
-            href={WHATSAPP}
-            origem="home_rodape"
-            className="text-sm font-semibold text-[#5CBECB] hover:text-white transition-colors"
-          >
-            Fale pelo WhatsApp →
-          </WhatsappLink>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }
