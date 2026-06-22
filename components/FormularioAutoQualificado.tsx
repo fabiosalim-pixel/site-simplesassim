@@ -710,6 +710,10 @@ export default function FormularioAutoQualificado() {
 
         {erro && <p className="text-red-500 text-xs font-medium">{erro}</p>}
 
+        <p className="text-center text-xs text-[#333333]/40">
+          🔒 Sem custo · Seus dados protegidos (LGPD) · Resposta em até 2h úteis
+        </p>
+
         <button
           type="button"
           onClick={handleSubmit}

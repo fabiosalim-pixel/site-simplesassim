@@ -201,6 +201,11 @@ export default function FormularioCotacao() {
           <p className="text-red-500 text-xs font-medium">{erro}</p>
         )}
 
+        {/* Selo de confiança */}
+        <p className="text-center text-xs text-[#333333]/40">
+          🔒 Sem custo · Seus dados protegidos (LGPD) · Resposta em até 2h úteis
+        </p>
+
         {/* Botão submit */}
         <button
           onClick={handleSubmit}

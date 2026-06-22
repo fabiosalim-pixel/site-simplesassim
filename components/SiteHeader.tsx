@@ -72,14 +72,13 @@ export default function SiteHeader() {
   return (
     <header className="w-full bg-white border-b border-[#e8f7f8] px-6 py-4 relative z-50">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <Link href="/" className="flex-shrink-0">
+        <Link href="/" className="flex-shrink-0 block h-9 w-[119px] overflow-hidden relative">
           <Image
             src="/logo.png"
             alt="Simples Assim"
-            width={150}
-            height={42}
+            fill
             priority
-            className="h-9 w-auto"
+            className="object-cover scale-[5.87]"
           />
         </Link>
 
@@ -100,7 +99,7 @@ export default function SiteHeader() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackWhatsapp("header_desktop")}
-            className="text-sm font-semibold text-[#25D366] hover:text-[#1ebe5a] transition-colors"
+            className="text-sm font-semibold text-[#157A3B] hover:text-[#0f5c2c] transition-colors"
           >
             Fale pelo WhatsApp →
           </a>
@@ -131,7 +130,7 @@ export default function SiteHeader() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackWhatsapp("header_mobile")}
-              className="block px-3 py-2.5 rounded-lg text-sm font-bold text-[#25D366] hover:bg-[#f6fcfd]"
+              className="block px-3 py-2.5 rounded-lg text-sm font-bold text-[#157A3B] hover:bg-[#f6fcfd]"
             >
               Fale pelo WhatsApp →
             </a>

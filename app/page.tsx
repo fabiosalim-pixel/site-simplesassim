@@ -23,8 +23,8 @@ const MOTIVOS = [
 ];
 
 const STATS = [
-  { num: "42+", label: "Seguradoras parceiras" },
-  { num: "10 anos", label: "de mercado" },
+  { num: "40+", label: "Seguradoras parceiras" },
+  { num: "24 anos", label: "de experiência" },
   { num: "100%", label: "Atendimento humano" },
   { num: "0", label: "Burocracia" },
 ];
@@ -83,7 +83,7 @@ export default function Home() {
             <p className="text-xl md:text-2xl font-bold text-[#5CBECB] mt-4">
               Atendimento humano e sem burocracia. Simples Assim&nbsp;;)
             </p>
-            <p className="text-white/70 text-lg mt-6 max-w-md leading-relaxed">
+            <p className="text-white/80 text-lg mt-6 max-w-md leading-relaxed">
               Escolha o seguro que você procura, peça sua cotação e deixe o
               resto com a gente.
             </p>
@@ -92,14 +92,14 @@ export default function Home() {
               <CtaLink
                 href="#produtos"
                 origem="home_hero"
-                className="bg-[#E9854A] hover:bg-[#d9743b] text-white font-bold px-7 py-4 rounded-xl text-center transition-all shadow-sm hover:shadow-md"
+                className="bg-[#B85A22] hover:bg-[#A04E1D] text-white font-bold px-7 py-4 rounded-xl text-center transition-all shadow-sm hover:shadow-md"
               >
                 Quero minha cotação
               </CtaLink>
               <WhatsappLink
                 href={WHATSAPP}
                 origem="home_hero"
-                className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5a] text-white font-bold px-7 py-4 rounded-xl text-center transition-all"
+                className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5a] text-[#333333] font-bold px-7 py-4 rounded-xl text-center transition-all"
               >
                 Falar no WhatsApp
               </WhatsappLink>
@@ -113,7 +113,7 @@ export default function Home() {
             <ul className="space-y-4">
               {MOTIVOS.map((m) => (
                 <li key={m} className="flex items-start gap-3">
-                  <span className="text-[#E9854A] font-black text-lg leading-none mt-0.5">
+                  <span className="text-[#5CBECB] font-black text-lg leading-none mt-0.5">
                     ✓
                   </span>
                   <span className="text-white/90">{m}</span>
@@ -125,12 +125,12 @@ export default function Home() {
       </section>
 
       {/* ── Barra de estatísticas ── */}
-      <section className="bg-[#5CBECB] text-white">
+      <section className="bg-[#5CBECB] text-[#2d2d5c]">
         <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {STATS.map((s) => (
             <div key={s.label}>
               <div className="text-3xl md:text-4xl font-black">{s.num}</div>
-              <div className="text-sm text-white/80 mt-1">{s.label}</div>
+              <div className="text-sm text-[#2d2d5c]/80 mt-1">{s.label}</div>
             </div>
           ))}
         </div>
@@ -140,7 +140,7 @@ export default function Home() {
       <section id="sobre" className="bg-white">
         <div className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12">
           <div>
-            <p className="text-[#E9854A] font-bold text-xs uppercase tracking-widest mb-3">
+            <p className="text-[#B85A22] font-bold text-xs uppercase tracking-widest mb-3">
               Quem está por trás
             </p>
             <h2 className="text-2xl md:text-3xl font-black text-[#535391] mb-5">
@@ -198,7 +198,7 @@ export default function Home() {
           <h2 className="text-xl md:text-2xl font-black text-[#535391] text-center mb-2">
             Seguradoras parceiras
           </h2>
-          <p className="text-[#333333]/60 text-center text-sm mb-8">
+          <p className="text-[#333333]/75 text-center text-sm mb-8">
             Comparamos cotações entre as principais seguradoras do Brasil.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
@@ -220,7 +220,7 @@ export default function Home() {
           <h2 className="text-2xl md:text-3xl font-black text-[#535391] mb-2">
             Qual seguro você procura?
           </h2>
-          <p className="text-[#333333]/60 mb-10">
+          <p className="text-[#333333]/75 mb-10">
             Mais produtos chegando em breve.
           </p>
 
@@ -235,7 +235,7 @@ export default function Home() {
                 <h3 className="text-lg font-black text-[#535391] mb-2">
                   {p.nome}
                 </h3>
-                <p className="text-[#333333]/60 text-sm leading-relaxed mb-4">
+                <p className="text-[#333333]/75 text-sm leading-relaxed mb-4">
                   {p.desc}
                 </p>
                 <span className="text-[#5CBECB] font-semibold text-sm group-hover:text-[#4aa9b6]">
@@ -248,13 +248,23 @@ export default function Home() {
       </section>
 
       {/* ── Rodapé ── */}
-      <footer className="bg-[#535391] text-white/70">
+      <footer className="bg-[#535391] text-white/85">
         <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row md:items-start md:justify-between gap-6">
           <div className="text-sm leading-relaxed">
             <p className="font-bold text-white mb-1">
               Simples Assim · Via Seguros
             </p>
-            <p>Corretora de seguros · SUSEP nº 202018692</p>
+            <p>
+              Corretora de seguros ·{" "}
+              <a
+                href="https://www2.susep.gov.br/safe/Corretores/pesquisa"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-white"
+              >
+                SUSEP nº 202018692
+              </a>
+            </p>
             <p>CNPJ 22.663.893/0001-98 · Brasília/DF</p>
             <p className="mt-2">Tel/WhatsApp: (61) 99986-7005</p>
           </div>
