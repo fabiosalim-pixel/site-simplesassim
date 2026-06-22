@@ -330,16 +330,14 @@ function Rodape({ config }: { config: ProdutoConfig }) {
       <div className="py-6 px-6">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-white/75 text-xs">
           <div className="flex items-center gap-2">
-            <div
-              role="img"
-              aria-label="Simples Assim"
-              className="h-6 w-[79px] flex-shrink-0 bg-no-repeat"
-              style={{
-                backgroundImage: "url(/logo.png)",
-                backgroundSize: "178% auto",
-                backgroundPosition: "48.6% 49.4%",
-              }}
-            />
+            <div className="h-6 w-[74px] relative flex-shrink-0">
+              <Image
+                src="/logo-horizontal.png"
+                alt="Simples Assim"
+                fill
+                className="object-contain object-left"
+              />
+            </div>
           </div>
           <p>
             Via Seguros ·{" "}

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { sendGAEvent } from "@next/third-parties/google";
 
@@ -71,16 +72,15 @@ export default function SiteHeader() {
   return (
     <header className="w-full bg-white border-b border-[#e8f7f8] px-6 py-4 relative z-50">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <Link
-          href="/"
-          aria-label="Simples Assim"
-          className="flex-shrink-0 block h-9 w-[119px] bg-no-repeat"
-          style={{
-            backgroundImage: "url(/logo.png)",
-            backgroundSize: "178% auto",
-            backgroundPosition: "48.6% 49.4%",
-          }}
-        />
+        <Link href="/" className="flex-shrink-0 block h-9 w-[111px] relative">
+          <Image
+            src="/logo-horizontal.png"
+            alt="Simples Assim"
+            fill
+            priority
+            className="object-contain object-left"
+          />
+        </Link>
 
         {/* Menu — desktop */}
         <nav className="hidden md:flex items-center gap-7">
