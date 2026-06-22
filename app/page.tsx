@@ -113,7 +113,7 @@ export default function Home() {
             <ul className="space-y-4">
               {MOTIVOS.map((m) => (
                 <li key={m} className="flex items-start gap-3">
-                  <span className="text-[#5CBECB] font-black text-lg leading-none mt-0.5">
+                  <span aria-hidden="true" className="text-[#5CBECB] font-black text-lg leading-none mt-0.5">
                     ✓
                   </span>
                   <span className="text-white/90">{m}</span>

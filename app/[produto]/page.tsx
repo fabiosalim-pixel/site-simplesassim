@@ -221,7 +221,7 @@ function Hero({ config }: { config: ProdutoConfig }) {
           <ul className={config.ctaSecundaria ? "space-y-2.5" : "space-y-4"}>
             {config.beneficios.map((b, i) => (
               <li key={i} className="flex items-start gap-3 text-white/90">
-                <span className="text-[#5CBECB] font-black text-lg leading-none mt-0.5">
+                <span aria-hidden="true" className="text-[#5CBECB] font-black text-lg leading-none mt-0.5">
                   ✓
                 </span>
                 <span className="text-base">{b}</span>
@@ -286,7 +286,7 @@ function SecaoFormulario({ slug }: { slug: string }) {
               "Resposta em até 2 horas úteis",
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-2 text-[#333333]/75 text-sm">
-                <span className="text-[#5CBECB] font-bold">✓</span>
+                <span aria-hidden="true" className="text-[#5CBECB] font-bold">✓</span>
                 {item}
               </div>
             ))}

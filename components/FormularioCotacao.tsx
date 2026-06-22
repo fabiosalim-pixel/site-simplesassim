@@ -105,7 +105,7 @@ export default function FormularioCotacao() {
         <h3 className="text-xl font-black text-[#535391] mb-2">
           Recebemos sua solicitação!
         </h3>
-        <p className="text-[#333333]/60 text-sm">
+        <p className="text-[#333333]/75 text-sm">
           Um corretor entrará em contato em até 2 horas úteis com as melhores opções para você.
         </p>
       </div>
@@ -124,10 +124,11 @@ export default function FormularioCotacao() {
       <div className="space-y-4">
         {/* Nome */}
         <div>
-          <label className="block text-xs font-semibold text-[#333333]/60 uppercase tracking-wide mb-1.5">
+          <label htmlFor="cotacao-nome" className="block text-xs font-semibold text-[#333333]/75 uppercase tracking-wide mb-1.5">
             Nome completo *
           </label>
           <input
+            id="cotacao-nome"
             type="text"
             value={form.nome}
             onChange={(e) => handleChange("nome", e.target.value)}
@@ -138,10 +139,11 @@ export default function FormularioCotacao() {
 
         {/* Telefone */}
         <div>
-          <label className="block text-xs font-semibold text-[#333333]/60 uppercase tracking-wide mb-1.5">
+          <label htmlFor="cotacao-telefone" className="block text-xs font-semibold text-[#333333]/75 uppercase tracking-wide mb-1.5">
             Telefone / WhatsApp *
           </label>
           <input
+            id="cotacao-telefone"
             type="tel"
             value={form.telefone}
             onChange={(e) => handleChange("telefone", e.target.value)}
@@ -152,10 +154,11 @@ export default function FormularioCotacao() {
 
         {/* Email */}
         <div>
-          <label className="block text-xs font-semibold text-[#333333]/60 uppercase tracking-wide mb-1.5">
+          <label htmlFor="cotacao-email" className="block text-xs font-semibold text-[#333333]/75 uppercase tracking-wide mb-1.5">
             E-mail (opcional)
           </label>
           <input
+            id="cotacao-email"
             type="email"
             value={form.email}
             onChange={(e) => handleChange("email", e.target.value)}
@@ -166,10 +169,11 @@ export default function FormularioCotacao() {
 
         {/* Tipo de seguro */}
         <div>
-          <label className="block text-xs font-semibold text-[#333333]/60 uppercase tracking-wide mb-1.5">
+          <label htmlFor="cotacao-tipo-seguro" className="block text-xs font-semibold text-[#333333]/75 uppercase tracking-wide mb-1.5">
             Tipo de seguro
           </label>
           <select
+            id="cotacao-tipo-seguro"
             value={form.tipo_seguro}
             onChange={(e) => handleChange("tipo_seguro", e.target.value)}
             className="w-full border border-[#e0e0e0] rounded-xl px-4 py-3 text-sm text-[#333333] focus:outline-none focus:border-[#5CBECB] focus:ring-1 focus:ring-[#5CBECB] transition-colors bg-white"
@@ -190,9 +194,12 @@ export default function FormularioCotacao() {
             onChange={(e) => handleChange("consentimento_lgpd", e.target.checked)}
             className="mt-0.5 w-4 h-4 accent-[#5CBECB] cursor-pointer flex-shrink-0"
           />
-          <label htmlFor="lgpd" className="text-xs text-[#333333]/50 leading-relaxed cursor-pointer">
+          <label htmlFor="lgpd" className="text-xs text-[#333333]/75 leading-relaxed cursor-pointer">
             Concordo com o uso dos meus dados para contato comercial, conforme a{" "}
-            <span className="text-[#5CBECB] underline">Política de Privacidade</span> e a LGPD.
+            <a href="/privacidade" target="_blank" className="text-[#5CBECB] underline">
+              Política de Privacidade
+            </a>{" "}
+            e a LGPD.
           </label>
         </div>
 
@@ -202,7 +209,7 @@ export default function FormularioCotacao() {
         )}
 
         {/* Selo de confiança */}
-        <p className="text-center text-xs text-[#333333]/40">
+        <p className="text-center text-xs text-[#333333]/70">
           🔒 Sem custo · Seus dados protegidos (LGPD) · Resposta em até 2h úteis
         </p>
 
@@ -210,17 +217,17 @@ export default function FormularioCotacao() {
         <button
           onClick={handleSubmit}
           disabled={status === "loading"}
-          className="w-full bg-[#E9854A] hover:bg-[#d9743b] disabled:opacity-60 text-white font-bold py-4 rounded-xl text-base transition-all shadow-sm hover:shadow-md"
+          className="w-full bg-[#B85A22] hover:bg-[#A04E1D] disabled:opacity-60 text-white font-bold py-4 rounded-xl text-base transition-all shadow-sm hover:shadow-md"
         >
           {status === "loading" ? "Enviando..." : "Quero minha cotação gratuita"}
         </button>
 
         {status === "error" && (
-          <p className="text-center text-xs text-[#333333]/40">
+          <p className="text-center text-xs text-[#333333]/70">
             Problema técnico?{" "}
             <a
               href="https://wa.me/5561999867005"
-              className="text-[#25D366] font-semibold"
+              className="text-[#157A3B] font-semibold"
               target="_blank"
               rel="noopener noreferrer"
             >

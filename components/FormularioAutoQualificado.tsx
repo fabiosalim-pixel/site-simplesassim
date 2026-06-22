@@ -65,15 +65,16 @@ function ToggleSimNao({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <div>
-      <label className="block text-xs font-semibold text-[#333333]/60 uppercase tracking-wide mb-1.5">
+    <div role="group" aria-label={label}>
+      <span className="block text-xs font-semibold text-[#333333]/75 uppercase tracking-wide mb-1.5">
         {label} *
-      </label>
+      </span>
       <div className="flex gap-2">
         <button
           type="button"
+          aria-pressed={value === true}
           onClick={() => onChange(true)}
-          className={`px-5 py-2.5 rounded-xl text-sm font-semibold border-2 transition-colors ${
+          className={`px-5 py-2.5 rounded-xl text-sm font-semibold border-2 transition-colors focus-visible:ring-2 focus-visible:ring-[#5CBECB] focus-visible:ring-offset-2 ${
             value === true
               ? "bg-[#5CBECB] border-[#5CBECB] text-white"
               : "bg-white border-[#e0e0e0] text-[#333333]/70 hover:border-[#5CBECB]"
@@ -83,8 +84,9 @@ function ToggleSimNao({
         </button>
         <button
           type="button"
+          aria-pressed={value === false}
           onClick={() => onChange(false)}
-          className={`px-5 py-2.5 rounded-xl text-sm font-semibold border-2 transition-colors ${
+          className={`px-5 py-2.5 rounded-xl text-sm font-semibold border-2 transition-colors focus-visible:ring-2 focus-visible:ring-[#5CBECB] focus-visible:ring-offset-2 ${
             value === false
               ? "bg-[#5CBECB] border-[#5CBECB] text-white"
               : "bg-white border-[#e0e0e0] text-[#333333]/70 hover:border-[#5CBECB]"
@@ -109,17 +111,18 @@ function ToggleOpcoes<T extends string>({
   onChange: (v: T) => void;
 }) {
   return (
-    <div>
-      <label className="block text-xs font-semibold text-[#333333]/60 uppercase tracking-wide mb-1.5">
+    <div role="group" aria-label={label}>
+      <span className="block text-xs font-semibold text-[#333333]/75 uppercase tracking-wide mb-1.5">
         {label} *
-      </label>
+      </span>
       <div className="flex gap-2 flex-wrap">
         {opcoes.map((op) => (
           <button
             key={op}
             type="button"
+            aria-pressed={value === op}
             onClick={() => onChange(op)}
-            className={`px-5 py-2.5 rounded-xl text-sm font-semibold border-2 transition-colors ${
+            className={`px-5 py-2.5 rounded-xl text-sm font-semibold border-2 transition-colors focus-visible:ring-2 focus-visible:ring-[#5CBECB] focus-visible:ring-offset-2 ${
               value === op
                 ? "bg-[#5CBECB] border-[#5CBECB] text-white"
                 : "bg-white border-[#e0e0e0] text-[#333333]/70 hover:border-[#5CBECB]"
@@ -156,7 +159,7 @@ function BarraProgresso({ passo }: { passo: Passo }) {
 const inputClass =
   "w-full border border-[#e0e0e0] rounded-xl px-4 py-3 text-sm text-[#333333] focus:outline-none focus:border-[#5CBECB] focus:ring-1 focus:ring-[#5CBECB] transition-colors";
 const labelClass =
-  "block text-xs font-semibold text-[#333333]/60 uppercase tracking-wide mb-1.5";
+  "block text-xs font-semibold text-[#333333]/75 uppercase tracking-wide mb-1.5";
 const botaoAvancar =
   "w-full bg-[#5CBECB] hover:bg-[#4aa9b6] text-white font-bold py-4 rounded-xl text-base transition-all shadow-sm hover:shadow-md";
 const botaoVoltar = "text-xs text-[#5CBECB] font-semibold underline mb-5";
@@ -371,7 +374,7 @@ export default function FormularioAutoQualificado() {
         <h3 className="text-xl font-black text-[#535391] mb-2">
           Recebemos sua solicitação!
         </h3>
-        <p className="text-[#333333]/60 text-sm">
+        <p className="text-[#333333]/75 text-sm">
           {fluxo === "renovacao"
             ? "Vamos analisar sua apólice atual e te mostrar opções melhores em até 2 horas úteis."
             : "Um corretor entrará em contato em até 2 horas úteis com as melhores opções para o seu perfil."}
@@ -384,13 +387,13 @@ export default function FormularioAutoQualificado() {
   if (fluxo === null) {
     return (
       <div className="bg-white rounded-2xl shadow-sm border border-[#e8f7f8] p-7">
-        <p className="text-[#E9854A] font-bold text-xs uppercase tracking-widest mb-2">
+        <p className="text-[#B85A22] font-bold text-xs uppercase tracking-widest mb-2">
           Cotação qualificada
         </p>
         <h3 className="text-xl font-black text-[#535391] mb-2">
           Você já tem seguro auto?
         </h3>
-        <p className="text-[#333333]/60 text-sm mb-6">
+        <p className="text-[#333333]/75 text-sm mb-6">
           A resposta muda as próximas perguntas — assim você cai direto no
           fluxo certo para o seu caso.
         </p>
@@ -408,7 +411,7 @@ export default function FormularioAutoQualificado() {
           >
             <div className="text-2xl mb-2">📄</div>
             <div className="font-black text-[#535391]">Sim, já tenho seguro</div>
-            <div className="text-xs text-[#333333]/50 mt-1">
+            <div className="text-xs text-[#333333]/70 mt-1">
               Envie sua apólice atual e compare com outras seguradoras
             </div>
           </button>
@@ -425,7 +428,7 @@ export default function FormularioAutoQualificado() {
           >
             <div className="text-2xl mb-2">🚗</div>
             <div className="font-black text-[#535391]">Não, é meu primeiro seguro</div>
-            <div className="text-xs text-[#333333]/50 mt-1">
+            <div className="text-xs text-[#333333]/70 mt-1">
               Vamos cotar um seguro novo do zero
             </div>
           </button>
@@ -502,14 +505,15 @@ export default function FormularioAutoQualificado() {
         <h3 className="text-lg font-black text-[#535391] mb-2">
           Quem vamos contatar?
         </h3>
-        <p className="text-[#333333]/60 text-sm mb-6">
+        <p className="text-[#333333]/75 text-sm mb-6">
           Só mais um passo depois deste para finalizar.
         </p>
 
         <div className="space-y-4">
           <div>
-            <label className={labelClass}>Nome completo *</label>
+            <label htmlFor="auto-nome" className={labelClass}>Nome completo *</label>
             <input
+              id="auto-nome"
               type="text"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
@@ -519,8 +523,9 @@ export default function FormularioAutoQualificado() {
           </div>
 
           <div>
-            <label className={labelClass}>Telefone / WhatsApp *</label>
+            <label htmlFor="auto-telefone" className={labelClass}>Telefone / WhatsApp *</label>
             <input
+              id="auto-telefone"
               type="tel"
               value={telefone}
               onChange={(e) => setTelefone(fmtTelefone(e.target.value))}
@@ -530,8 +535,9 @@ export default function FormularioAutoQualificado() {
           </div>
 
           <div>
-            <label className={labelClass}>E-mail (opcional)</label>
+            <label htmlFor="auto-email" className={labelClass}>E-mail (opcional)</label>
             <input
+              id="auto-email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -549,9 +555,12 @@ export default function FormularioAutoQualificado() {
               onChange={(e) => setLgpd(e.target.checked)}
               className="mt-0.5 w-4 h-4 accent-[#5CBECB] cursor-pointer flex-shrink-0"
             />
-            <label htmlFor="lgpd-auto" className="text-xs text-[#333333]/50 leading-relaxed cursor-pointer">
+            <label htmlFor="lgpd-auto" className="text-xs text-[#333333]/75 leading-relaxed cursor-pointer">
               Concordo com o uso dos meus dados para contato comercial, conforme a{" "}
-              <span className="text-[#5CBECB] underline">Política de Privacidade</span> e a LGPD.
+              <a href="/privacidade" target="_blank" className="text-[#5CBECB] underline">
+                Política de Privacidade
+              </a>{" "}
+              e a LGPD.
             </label>
           </div>
 
@@ -579,9 +588,10 @@ export default function FormularioAutoQualificado() {
       <div className="space-y-4">
         {fluxo === "renovacao" ? (
           <div>
-            <label className={labelClass}>Apólice vigente em PDF *</label>
+            <label htmlFor="auto-upload" className={labelClass}>Apólice vigente em PDF *</label>
             <input
               ref={fileInputRef}
+              id="auto-upload"
               type="file"
               accept="application/pdf"
               onChange={handleFileChange}
@@ -593,7 +603,8 @@ export default function FormularioAutoQualificado() {
                 <button
                   type="button"
                   onClick={() => setArquivo(null)}
-                  className="text-[#333333]/40 hover:text-red-500 text-sm font-bold ml-3"
+                  aria-label="Remover arquivo"
+                  className="text-[#333333]/70 hover:text-red-500 text-sm font-bold ml-3 focus-visible:ring-2 focus-visible:ring-[#5CBECB] rounded"
                 >
                   ✕
                 </button>
@@ -602,10 +613,10 @@ export default function FormularioAutoQualificado() {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="w-full border-2 border-dashed border-[#e0e0e0] rounded-xl px-4 py-5 text-sm text-[#333333]/60 hover:border-[#5CBECB] transition-colors text-center"
+                className="w-full border-2 border-dashed border-[#e0e0e0] rounded-xl px-4 py-5 text-sm text-[#333333]/75 hover:border-[#5CBECB] transition-colors text-center focus-visible:ring-2 focus-visible:ring-[#5CBECB] focus-visible:ring-offset-2"
               >
                 Toque para anexar o PDF da apólice
-                <div className="text-xs text-[#333333]/40 mt-1">Até 10MB</div>
+                <div className="text-xs text-[#333333]/70 mt-1">Até 10MB</div>
               </button>
             )}
           </div>
@@ -613,8 +624,9 @@ export default function FormularioAutoQualificado() {
           <>
             {tipoVeiculo === "Zero KM" && (
               <div>
-                <label className={labelClass}>Chassi *</label>
+                <label htmlFor="auto-chassi" className={labelClass}>Chassi *</label>
                 <input
+                  id="auto-chassi"
                   type="text"
                   value={chassi}
                   onChange={(e) => setChassi(e.target.value.toUpperCase())}
@@ -627,8 +639,9 @@ export default function FormularioAutoQualificado() {
             {tipoVeiculo === "Usado" && (
               <div className="grid grid-cols-2 gap-3">
                 <div className="col-span-2">
-                  <label className={labelClass}>Placa *</label>
+                  <label htmlFor="auto-placa" className={labelClass}>Placa *</label>
                   <input
+                    id="auto-placa"
                     type="text"
                     value={placa}
                     onChange={(e) => setPlaca(fmtPlaca(e.target.value))}
@@ -637,8 +650,9 @@ export default function FormularioAutoQualificado() {
                   />
                 </div>
                 <div>
-                  <label className={labelClass}>Modelo *</label>
+                  <label htmlFor="auto-modelo" className={labelClass}>Modelo *</label>
                   <input
+                    id="auto-modelo"
                     type="text"
                     value={modelo}
                     onChange={(e) => setModelo(e.target.value)}
@@ -647,8 +661,9 @@ export default function FormularioAutoQualificado() {
                   />
                 </div>
                 <div>
-                  <label className={labelClass}>Ano *</label>
+                  <label htmlFor="auto-ano" className={labelClass}>Ano *</label>
                   <input
+                    id="auto-ano"
                     type="text"
                     value={ano}
                     onChange={(e) => setAno(e.target.value.replace(/\D/g, "").slice(0, 4))}
@@ -660,8 +675,9 @@ export default function FormularioAutoQualificado() {
             )}
 
             <div>
-              <label className={labelClass}>CPF do condutor principal *</label>
+              <label htmlFor="auto-cpf" className={labelClass}>CPF do condutor principal *</label>
               <input
+                id="auto-cpf"
                 type="text"
                 value={cpf}
                 onChange={(e) => setCpf(fmtCPF(e.target.value))}
@@ -671,8 +687,9 @@ export default function FormularioAutoQualificado() {
             </div>
 
             <div>
-              <label className={labelClass}>Estado civil *</label>
+              <label htmlFor="auto-estado-civil" className={labelClass}>Estado civil *</label>
               <select
+                id="auto-estado-civil"
                 value={estadoCivil}
                 onChange={(e) => setEstadoCivil(e.target.value)}
                 className={`${inputClass} bg-white`}
@@ -685,8 +702,9 @@ export default function FormularioAutoQualificado() {
             </div>
 
             <div>
-              <label className={labelClass}>CEP de pernoite *</label>
+              <label htmlFor="auto-cep" className={labelClass}>CEP de pernoite *</label>
               <input
+                id="auto-cep"
                 type="text"
                 value={cep}
                 onChange={(e) => setCep(fmtCEP(e.target.value))}
@@ -710,7 +728,7 @@ export default function FormularioAutoQualificado() {
 
         {erro && <p className="text-red-500 text-xs font-medium">{erro}</p>}
 
-        <p className="text-center text-xs text-[#333333]/40">
+        <p className="text-center text-xs text-[#333333]/70">
           🔒 Sem custo · Seus dados protegidos (LGPD) · Resposta em até 2h úteis
         </p>
 
@@ -718,7 +736,7 @@ export default function FormularioAutoQualificado() {
           type="button"
           onClick={handleSubmit}
           disabled={status === "loading"}
-          className="w-full bg-[#E9854A] hover:bg-[#d9743b] disabled:opacity-60 text-white font-bold py-4 rounded-xl text-base transition-all shadow-sm hover:shadow-md"
+          className="w-full bg-[#B85A22] hover:bg-[#A04E1D] disabled:opacity-60 text-white font-bold py-4 rounded-xl text-base transition-all shadow-sm hover:shadow-md"
         >
           {status === "loading"
             ? "Enviando..."
@@ -728,11 +746,11 @@ export default function FormularioAutoQualificado() {
         </button>
 
         {status === "error" && (
-          <p className="text-center text-xs text-[#333333]/40">
+          <p className="text-center text-xs text-[#333333]/70">
             Problema técnico?{" "}
             <a
               href="https://wa.me/5561999867005"
-              className="text-[#25D366] font-semibold"
+              className="text-[#157A3B] font-semibold"
               target="_blank"
               rel="noopener noreferrer"
             >
